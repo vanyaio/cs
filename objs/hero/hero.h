@@ -1,0 +1,24 @@
+#ifndef hero_h
+#define hero_h
+
+#include".\..\..\obj.h"
+class hero;
+#include".\..\..\objs.h"
+#include".\..\..\lvls.h"
+#include".\..\..\img.h"
+#include".\..\..\stl.h"
+class hero : public obj
+{
+public:
+
+
+    clock_t cd_set_t;
+    bool cd_set;
+    hero();
+    hero(int _x, int _y);
+    hero(int _x, int _y, lvl* _my_lvl);
+
+    void step();
+    void init();
+};
+#endif
