@@ -46,7 +46,7 @@ int main()
     /*cout << connect(sock,(sockaddr *)&sock_addr,
                     sizeof(sock_addr)) << endl;*/
 
-    while (connect(sock,(sockaddr *)&sock_addr, sizeof(sock_addr)) == -1){};
+    while (connect(sock,(sockaddr *)&sock_addr, sizeof(sock_addr)) == -1) {};
     //
     clock_t cd_set_t = clock();
     bool cd_set = false;
@@ -59,11 +59,11 @@ int main()
 
         clock_t t1;
         t1 = clock();
+        double diff = t1 - cd_set_t;
+        double secs = diff / CLOCKS_PER_SEC;
 
         if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
         {
-            double diff = t1 - cd_set_t;
-            double secs = diff / CLOCKS_PER_SEC;
             if (!cd_set || (secs > 0.1))
             {
                 key_buff[0] = VK_RIGHT;
@@ -79,8 +79,9 @@ int main()
             key_buff[i] = htonl(key_buff[i]);
         send(sock, (char*)key_buff, 5 * sizeof(int), 0);
 
+
         int send_sz[1];
-        recv(sock, (char*)buff, 2 * sizeof(int), 0);
+        recv(sock, (char*)send_sz, sizeof(int), 0);
         int objs_sz = ntohl(send_sz[0]);
 
         int objs_ind[objs_sz];
@@ -92,15 +93,19 @@ int main()
         int objs_y[objs_sz];
         recv(sock, (char*)objs_y, objs_sz * sizeof(int), 0);
 
-
-        for (int i = 0; i < objs_sz; i++)
+        if (!cd_set || (secs > 1))
         {
-            int a, b, c;
-            a = objs_ind[i] = ntohl(objs_ind[i]);
-            b = objs_x[i] = ntohl(objs_x[i]);
-            c = objs_y[i] = ntohl(objs_y[i]);
-            cout << a << " " << b << " " << c << endl;
+            for (int i = 0; i < objs_sz; i++)
+            {
+                int a, b, c;
+                a = objs_ind[i] = ntohl(objs_ind[i]);
+                b = objs_x[i] = ntohl(objs_x[i]);
+                c = objs_y[i] = ntohl(objs_y[i]);
+                cout << a << " " << b << " " << c << endl;
+            }
+            cout << endl << endl << endl;
+            cd_set = true;
+            cd_set_t = clock();
         }
-        cout << endl << endl << endl;
     }
 }

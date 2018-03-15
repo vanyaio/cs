@@ -1,0 +1,126 @@
+# depslib dependency file v1.0
+1519918431 source:c:\users\user\desktop\game4\img.cpp
+	"img.h"
+	<iostream>
+	<fstream>
+
+1519788627 c:\users\user\desktop\game4\img.h
+	<string>
+	<fstream>
+
+1519788627 source:c:\users\user\desktop\game4\lvl.cpp
+
+1521112881 source:c:\users\user\desktop\game4\lvls\loca\loca.cpp
+	"loca.h"
+	".\..\..\vars.h"
+	".\..\..\scripts.h"
+
+1521020114 c:\users\user\desktop\game4\lvls\loca\loca.h
+	".\..\..\lvl.h"
+	".\..\..\objs.h"
+	".\..\..\lvls.h"
+	".\..\..\img.h"
+	".\..\..\stl.h"
+
+1521104146 c:\users\user\desktop\game4\lvl.h
+	"obj.h"
+	"user.h"
+	"img.h"
+	"stl.h"
+
+1521100823 c:\users\user\desktop\game4\obj.h
+	"lvl.h"
+	"user.h"
+	"img.h"
+	"stl.h"
+
+1521103732 c:\users\user\desktop\game4\stl.h
+	<winsock2.h>
+	<windows.h>
+	<iostream>
+	<time.h>
+	<conio.h>
+	<string>
+	<stdio.h>
+	<list>
+	<set>
+
+1521020829 c:\users\user\desktop\game4\objs.h
+	".\objs\hero\hero.h"
+	".\objs\wall\wall.h"
+
+1521103519 c:\users\user\desktop\game4\objs\hero\hero.h
+	".\..\..\obj.h"
+	".\..\..\objs.h"
+	".\..\..\lvls.h"
+	".\..\..\img.h"
+	".\..\..\stl.h"
+
+1519788627 c:\users\user\desktop\game4\lvls.h
+	".\lvls\loca\loca.h"
+
+1521104803 c:\users\user\desktop\game4\vars.h
+	"objs.h"
+	"lvls.h"
+	"img.h"
+	"stl.h"
+	"user.h"
+
+1519788627 c:\users\user\desktop\game4\scripts.h
+	".\scripts\f1.h"
+
+1521104652 c:\users\user\desktop\game4\scripts\f1.h
+	".\..\objs.h"
+	".\..\lvls.h"
+	".\..\img.h"
+	".\..\stl.h"
+	".\..\user.h"
+
+1521112617 source:c:\users\user\desktop\game4\main.cpp
+	"objs.h"
+	"lvls.h"
+	"img.h"
+	"stl.h"
+	"vars.h"
+	"scripts.h"
+	"user.h"
+
+1519788627 source:c:\users\user\desktop\game4\obj.cpp
+
+1521128538 source:c:\users\user\desktop\game4\scripts\f1.cpp
+	"f1.h"
+	".\..\vars.h"
+	".\..\scripts.h"
+
+1519788627 source:c:\users\user\desktop\game4\vars.cpp
+	"vars.h"
+	"scripts.h"
+
+1521113609 source:c:\users\user\desktop\game4\objs\hero\hero.cpp
+	"hero.h"
+	".\..\..\vars.h"
+	".\..\..\scripts.h"
+	<string>
+
+1521020897 c:\users\user\desktop\game4\objs\wall\wall.h
+	".\..\..\obj.h"
+	".\..\..\objs.h"
+	".\..\..\lvls.h"
+	".\..\..\img.h"
+	".\..\..\stl.h"
+
+1521052930 source:c:\users\user\desktop\game4\objs\wall\wall.cpp
+	"wall.h"
+	".\..\..\vars.h"
+	".\..\..\scripts.h"
+	<string>
+
+1521104281 c:\users\user\desktop\game4\user.h
+	"lvl.h"
+	"obj.h"
+	"img.h"
+	"stl.h"
+
+1521113578 source:c:\users\user\desktop\game4\user.cpp
+	"user.h"
+

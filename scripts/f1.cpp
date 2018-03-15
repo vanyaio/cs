@@ -124,20 +124,17 @@ void network_step(lvl* _this)
     }
     for (auto _user : _this->connections)
     {
-        cout << "1" << endl;
         int gotten = recv((_user->my_sock), (char*)(_user->key_buff), key_buff_sz * sizeof(int), 0);
-        cout << "2" << endl;
         if (gotten != -1)
         {
             for (int i = 0 ; i < key_buff_sz; ++i)
             _user->key_buff[i] = ntohl(_user->key_buff[i]);
         }
-        cout << "3" << endl;
         cout.flush();
 
         int objs_sz = (_this->my_objs).size();
-
         int send_sz[1] = {objs_sz};
+        send_sz[0] = htonl(send_sz[0]);
         int send1 = send((_user->my_sock), (char*)send_sz, sizeof(int), 0);
 
         int objs_ind[objs_sz];

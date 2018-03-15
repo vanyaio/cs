@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="game4" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/game4" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/game4" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="C:/Users/User/Desktop/game4" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="img.cpp" />
+		<Unit filename="img.h" />
+		<Unit filename="imgs/hero.txt" />
+		<Unit filename="lvl.cpp" />
+		<Unit filename="lvl.h" />
+		<Unit filename="lvls.h" />
+		<Unit filename="lvls/loca/loca.cpp" />
+		<Unit filename="lvls/loca/loca.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="obj.cpp" />
+		<Unit filename="obj.h" />
+		<Unit filename="objs.h" />
+		<Unit filename="objs/hero/hero.cpp" />
+		<Unit filename="objs/hero/hero.h" />
+		<Unit filename="objs/wall/wall.cpp" />
+		<Unit filename="objs/wall/wall.h" />
+		<Unit filename="scripts.h" />
+		<Unit filename="scripts/f1.cpp" />
+		<Unit filename="scripts/f1.h" />
+		<Unit filename="stl.h" />
+		<Unit filename="user.cpp" />
+		<Unit filename="user.h" />
+		<Unit filename="vars.cpp" />
+		<Unit filename="vars.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
