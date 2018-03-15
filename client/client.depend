@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1521111426 source:c:\users\user\desktop\game4\client\main.cpp
+	<iostream>
+	<stdio.h>
+	<winsock2.h>
+	<windows.h>
+	<set>
+	<string.h>
+	<time.h>
+

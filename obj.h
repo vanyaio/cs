@@ -3,12 +3,14 @@
 
 class obj;
 #include "lvl.h"
+#include "user.h"
 #include "img.h"
 #include "stl.h"
 class obj
 {
 public:
     string name;
+    int ind;
 
     lvl* my_lvl;
     img* skin;

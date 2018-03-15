@@ -3,6 +3,7 @@
 
 class lvl;
 #include "obj.h"
+#include "user.h"
 #include "img.h"
 #include "stl.h"
 using namespace std;
@@ -24,6 +25,9 @@ public:
     set<obj*> my_objs;
 
     bool first_enter;
+
+    SOCKET master;
+    set<user*> connections;
 
     virtual void update_terminal_lvl() = 0;
     virtual void step() = 0;

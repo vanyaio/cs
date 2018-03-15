@@ -81,7 +81,8 @@ void hero::step()
     clock_t t1;
     t1 = clock();
 
-    if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
+    //if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
+    if (key_pressed(VK_RIGHT))
     {
         double diff = t1 - cd_set_t;
         double secs = diff / CLOCKS_PER_SEC;
@@ -113,4 +114,14 @@ void hero::step()
             cd_set_t = clock();
         }
     }
+}
+
+
+bool hero::key_pressed(int key)
+{
+    for (int i = 0; i < key_buff_sz; i++)
+        if (key == my_user->key_buff[i])
+            return true;
+    cout.flush();
+    return false;
 }

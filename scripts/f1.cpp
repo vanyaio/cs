@@ -4,7 +4,8 @@
 void print(int x, int y, img& _img)
 {
     COORD c1;
-    c1.X = x; c1.Y = y;
+    c1.X = x;
+    c1.Y = y;
 
     SetConsoleCursorPosition(hConsole, c1);
     SetConsoleTextAttribute(hConsole, _img.arr[0][0].color);
@@ -13,7 +14,8 @@ void print(int x, int y, img& _img)
 void print(int x, int y, pixel& _img)
 {
     COORD c1;
-    c1.X = x; c1.Y = y;
+    c1.X = x;
+    c1.Y = y;
 
     SetConsoleCursorPosition(hConsole, c1);
     SetConsoleTextAttribute(hConsole, _img.color);
@@ -93,3 +95,95 @@ void scan_space(obj* _this, int x1, int y1, set<obj*>& objs)
     int new_y1 = new_y0 + _this->skin->y;
     scan_space(new_x0, new_y0, new_x1, new_y1, objs, _this->my_lvl);
 }
+
+int set_nonblock(SOCKET fd)
+{
+    u_long flags;
+#if defined(O_NONBLOCK)
+    if (-1 == (flags = fcntl(fd, F_GETFL, 0)))
+        flags = 0;
+    return fcntl(fd, F_SETFL, flags | O_NONBLOCK);
+#else
+    flags = 1;
+    return ioctlsocket(fd, FIONBIO, &flags);
+#endif
+}
+
+void network_step(lvl* _this)
+{
+    SOCKET slave = accept((_this->master), 0, 0);
+    if (slave != -1)
+    {
+        obj* new_hero = new hero(3, 3, _this);
+        _this->add_list.push_back(new_hero);
+
+        user* new_user = new user(new_hero, slave);
+        _this->connections.insert(new_user);
+
+        (static_cast<hero*>(new_hero))->my_user = new_user;
+    }
+    for (auto _user : _this->connections)
+    {
+        cout << "1" << endl;
+        int gotten = recv((_user->my_sock), (char*)(_user->key_buff), key_buff_sz * sizeof(int), 0);
+        cout << "2" << endl;
+        if (gotten != -1)
+        {
+            for (int i = 0 ; i < key_buff_sz; ++i)
+            _user->key_buff[i] = ntohl(_user->key_buff[i]);
+        }
+        cout << "3" << endl;
+        cout.flush();
+
+        int objs_sz = (_this->my_objs).size();
+
+        int send_sz[1] = {objs_sz};
+        int send1 = send((_user->my_sock), (char*)send_sz, sizeof(int), 0);
+
+        int objs_ind[objs_sz];
+        int i = 0;
+        for (auto obj_sending: (_this->my_objs))
+        {
+            objs_ind[i] = obj_sending->ind;
+            ++i;
+        }
+        for (int j = 0 ; j < objs_sz; ++j)
+            objs_ind[j] = htonl(objs_ind[j]);
+        int send2 = send((_user->my_sock), (char*)objs_ind, sizeof(int) * objs_sz, 0);
+
+
+        int objs_x[objs_sz];
+        i = 0;
+        for (auto obj_sending: (_this->my_objs))
+        {
+            objs_x[i] = obj_sending->x_room;
+            ++i;
+        }
+        for (int j = 0 ; j < objs_sz; ++j)
+            objs_x[j] = htonl(objs_x[j]);
+        int send3 = send((_user->my_sock), (char*)objs_x, sizeof(int) * objs_sz, 0);
+
+        int objs_y[objs_sz];
+        i = 0;
+        for (auto obj_sending: (_this->my_objs))
+        {
+            objs_y[i] = obj_sending->y_room;
+            ++i;
+        }
+        for (int j = 0 ; j < objs_sz; ++j)
+            objs_y[j] = htonl(objs_y[j]);
+        int send4 = send((_user->my_sock), (char*)objs_y, sizeof(int) * objs_sz, 0);
+
+        /*if ((send1 == -1) || (send2 == -1) || (send3 == -1) || (send4 == -1))
+        {
+            cout << 4 << endl;
+            _this->connections.erase(_user);
+            closesocket(_user->my_sock);
+            _user->my_hero->erase_called = true;
+            delete _user;
+            continue;
+        }*/
+    }
+
+}
+
