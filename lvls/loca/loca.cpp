@@ -17,8 +17,8 @@ loca::loca(int _x, int _y)
         room[i] = new list<obj*>[y];
 
     //add_list.push_back(new hero(x/2, y/2, this));
-    add_list.push_back(new wall((x/2) + 7, y/2, this));
-
+    //add_list.push_back(new wall((x/2) + 7, y/2, this));
+    add_list.push_back(new wall(12, 3, this));
     buffer = new pixel*[x];
     for (int i = 0; i < x; i++)
         buffer[i] = new pixel[y];

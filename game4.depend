@@ -10,7 +10,7 @@
 
 1519788627 source:c:\users\user\desktop\game4\lvl.cpp
 
-1521112881 source:c:\users\user\desktop\game4\lvls\loca\loca.cpp
+1521221841 source:c:\users\user\desktop\game4\lvls\loca\loca.cpp
 	"loca.h"
 	".\..\..\vars.h"
 	".\..\..\scripts.h"
@@ -34,7 +34,7 @@
 	"img.h"
 	"stl.h"
 
-1521103732 c:\users\user\desktop\game4\stl.h
+1521217666 c:\users\user\desktop\game4\stl.h
 	<winsock2.h>
 	<windows.h>
 	<iostream>
@@ -69,7 +69,7 @@
 1519788627 c:\users\user\desktop\game4\scripts.h
 	".\scripts\f1.h"
 
-1521104652 c:\users\user\desktop\game4\scripts\f1.h
+1521218475 c:\users\user\desktop\game4\scripts\f1.h
 	".\..\objs.h"
 	".\..\lvls.h"
 	".\..\img.h"
@@ -87,7 +87,7 @@
 
 1519788627 source:c:\users\user\desktop\game4\obj.cpp
 
-1521128538 source:c:\users\user\desktop\game4\scripts\f1.cpp
+1521219454 source:c:\users\user\desktop\game4\scripts\f1.cpp
 	"f1.h"
 	".\..\vars.h"
 	".\..\scripts.h"

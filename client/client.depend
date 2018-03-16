@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1521127857 source:c:\users\user\desktop\game4\client\main.cpp
+1521232256 source:c:\users\user\desktop\game4\client\main.cpp
 	<iostream>
 	<stdio.h>
 	<winsock2.h>
@@ -7,4 +7,141 @@
 	<set>
 	<string.h>
 	<time.h>
+	"objs.h"
+	"lvls.h"
+	"img.h"
+	"stl.h"
+	"vars.h"
+	"scripts.h"
+	"user.h"
+
+1519918431 source:c:\users\user\desktop\game4\client\img.cpp
+	"img.h"
+	<iostream>
+	<fstream>
+
+1519788627 c:\users\user\desktop\game4\client\img.h
+	<string>
+	<fstream>
+
+1519788627 source:c:\users\user\desktop\game4\client\lvl.cpp
+
+1521222081 source:c:\users\user\desktop\game4\client\lvls\loca\loca.cpp
+	"loca.h"
+	".\..\..\vars.h"
+	".\..\..\scripts.h"
+
+1521221946 c:\users\user\desktop\game4\client\lvls\loca\loca.h
+	".\..\..\lvl.h"
+	".\..\..\objs.h"
+	".\..\..\lvls.h"
+	".\..\..\img.h"
+	".\..\..\stl.h"
+
+1521221941 c:\users\user\desktop\game4\client\lvl.h
+	"obj.h"
+	"user.h"
+	"img.h"
+	"stl.h"
+
+1521100823 c:\users\user\desktop\game4\client\obj.h
+	"lvl.h"
+	"user.h"
+	"img.h"
+	"stl.h"
+
+1521104281 c:\users\user\desktop\game4\client\user.h
+	"lvl.h"
+	"obj.h"
+	"img.h"
+	"stl.h"
+
+1521217687 c:\users\user\desktop\game4\client\stl.h
+	<winsock2.h>
+	<windows.h>
+	<iostream>
+	<time.h>
+	<conio.h>
+	<string>
+	<stdio.h>
+	<list>
+	<set>
+
+1521219489 c:\users\user\desktop\game4\client\objs.h
+	".\objs\hero\hero.h"
+	".\objs\wall\wall.h"
+	".\objs\key_logger\key_logger.h"
+
+1521103519 c:\users\user\desktop\game4\client\objs\hero\hero.h
+	".\..\..\obj.h"
+	".\..\..\objs.h"
+	".\..\..\lvls.h"
+	".\..\..\img.h"
+	".\..\..\stl.h"
+
+1519788627 c:\users\user\desktop\game4\client\lvls.h
+	".\lvls\loca\loca.h"
+
+1521020897 c:\users\user\desktop\game4\client\objs\wall\wall.h
+	".\..\..\obj.h"
+	".\..\..\objs.h"
+	".\..\..\lvls.h"
+	".\..\..\img.h"
+	".\..\..\stl.h"
+
+1521219511 c:\users\user\desktop\game4\client\objs\key_logger\key_logger.h
+	".\..\..\obj.h"
+	".\..\..\objs.h"
+	".\..\..\lvls.h"
+	".\..\..\img.h"
+	".\..\..\stl.h"
+
+1521104803 c:\users\user\desktop\game4\client\vars.h
+	"objs.h"
+	"lvls.h"
+	"img.h"
+	"stl.h"
+	"user.h"
+
+1519788627 c:\users\user\desktop\game4\client\scripts.h
+	".\scripts\f1.h"
+
+1521104652 c:\users\user\desktop\game4\client\scripts\f1.h
+	".\..\objs.h"
+	".\..\lvls.h"
+	".\..\img.h"
+	".\..\stl.h"
+	".\..\user.h"
+
+1519788627 source:c:\users\user\desktop\game4\client\obj.cpp
+
+1521113609 source:c:\users\user\desktop\game4\client\objs\hero\hero.cpp
+	"hero.h"
+	".\..\..\vars.h"
+	".\..\..\scripts.h"
+	<string>
+
+1521219934 source:c:\users\user\desktop\game4\client\objs\key_logger\key_logger.cpp
+	"key_logger.h"
+	".\..\..\vars.h"
+	".\..\..\scripts.h"
+	<string>
+
+1521052930 source:c:\users\user\desktop\game4\client\objs\wall\wall.cpp
+	"wall.h"
+	".\..\..\vars.h"
+	".\..\..\scripts.h"
+	<string>
+
+1521113578 source:c:\users\user\desktop\game4\client\user.cpp
+	"user.h"
+
+1519788627 source:c:\users\user\desktop\game4\client\vars.cpp
+	"vars.h"
+	"scripts.h"
+
+1521219946 source:c:\users\user\desktop\game4\client\scripts\f1.cpp
+	"f1.h"
+	".\..\vars.h"
+	".\..\scripts.h"
 

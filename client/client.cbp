@@ -32,7 +32,31 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="img.cpp" />
+		<Unit filename="img.h" />
+		<Unit filename="lvl.cpp" />
+		<Unit filename="lvl.h" />
+		<Unit filename="lvls.h" />
+		<Unit filename="lvls/loca/loca.cpp" />
+		<Unit filename="lvls/loca/loca.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="obj.cpp" />
+		<Unit filename="obj.h" />
+		<Unit filename="objs.h" />
+		<Unit filename="objs/hero/hero.cpp" />
+		<Unit filename="objs/hero/hero.h" />
+		<Unit filename="objs/key_logger/key_logger.cpp" />
+		<Unit filename="objs/key_logger/key_logger.h" />
+		<Unit filename="objs/wall/wall.cpp" />
+		<Unit filename="objs/wall/wall.h" />
+		<Unit filename="scripts.h" />
+		<Unit filename="scripts/f1.cpp" />
+		<Unit filename="scripts/f1.h" />
+		<Unit filename="stl.h" />
+		<Unit filename="user.cpp" />
+		<Unit filename="user.h" />
+		<Unit filename="vars.cpp" />
+		<Unit filename="vars.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

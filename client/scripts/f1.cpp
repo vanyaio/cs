@@ -96,19 +96,6 @@ void scan_space(obj* _this, int x1, int y1, set<obj*>& objs)
     scan_space(new_x0, new_y0, new_x1, new_y1, objs, _this->my_lvl);
 }
 
-int set_nonblock(SOCKET fd)
-{
-    u_long flags;
-#if defined(O_NONBLOCK)
-    if (-1 == (flags = fcntl(fd, F_GETFL, 0)))
-        flags = 0;
-    return fcntl(fd, F_SETFL, flags | O_NONBLOCK);
-#else
-    flags = 1;
-    return ioctlsocket(fd, FIONBIO, &flags);
-#endif
-}
-
 void network_step(lvl* _this)
 {
     SOCKET slave = accept((_this->master), 0, 0);
@@ -128,9 +115,10 @@ void network_step(lvl* _this)
         if (gotten != -1)
         {
             for (int i = 0 ; i < key_buff_sz; ++i)
-                _user->key_buff[i] = ntohl(_user->key_buff[i]);
+            _user->key_buff[i] = ntohl(_user->key_buff[i]);
         }
-        /*
+        cout.flush();
+
         int objs_sz = (_this->my_objs).size();
         int send_sz[1] = {objs_sz};
         send_sz[0] = htonl(send_sz[0]);
@@ -179,34 +167,7 @@ void network_step(lvl* _this)
             delete _user;
             continue;
         }*/
-
-        int signs[game_screen_x * game_screen_y];
-        int colors[game_screen_x * game_screen_y];
-        obj* now_obj = _user->my_hero;
-
-        for (int i = now_obj->x_room - (game_screen_x/2), cnt = 0; i <= (now_obj->x_room + (game_screen_x/2)); i++)
-            for (int j = now_obj->y_room - (game_screen_y/2); j <= (now_obj->y_room + (game_screen_y/2)); j++, cnt++)
-            {
-                if (out_of_border(i, j, _this))
-                {
-                    signs[cnt] = htonl((int)' ');
-                    colors[cnt] = htonl(15);
-                    continue;
-                }
-                signs[cnt] = htonl((int)_this->terminal[i][j].sign);
-                colors[cnt] = htonl((int)_this->terminal[i][j].color);
-            }
-        send((_user->my_sock), (char*)signs, sizeof(int) * game_screen_x * game_screen_y, 0);
-        send((_user->my_sock), (char*)colors, sizeof(int) * game_screen_x * game_screen_y, 0);
     }
-}
 
-bool out_of_border(int x, int y, lvl* _this)
-{
-    if (x < 0 || x >= _this->x)
-        return true;
-    if (y < 0 || y >= _this->y)
-        return true;
-    return false;
 }
 
