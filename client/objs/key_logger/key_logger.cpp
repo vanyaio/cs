@@ -33,15 +33,15 @@ void key_logger::step()
     fill(my_lvl->key_buff, my_lvl->key_buff + key_buff_sz, 0);
     int cnt = 0;
 
-    clock_t t1;
-    t1 = clock();
 
     if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
     {
+        clock_t t1;
+        t1 = clock();
         double diff = t1 - cd_set_t;
         double secs = diff / CLOCKS_PER_SEC;
 
-        if (!cd_set || (secs > 0.2))
+        if (!cd_set || (secs > 0.1))
         {
             my_lvl->key_buff[cnt] = VK_RIGHT;
             cnt++;
@@ -50,19 +50,118 @@ void key_logger::step()
             cd_set_t = clock();
         }
     }
-    /*
     if (GetAsyncKeyState(VK_LEFT) & 0x8000)
     {
+        clock_t t1;
+        t1 = clock();
         double diff = t1 - cd_set_t;
         double secs = diff / CLOCKS_PER_SEC;
 
-        if (!cd_set || (secs > 0.9))
+        if (!cd_set || (secs > 0.1))
         {
-            my_lvl->add_list.push_back(new hero(4, 4, my_lvl));
+            my_lvl->key_buff[cnt] = VK_LEFT;
+            cnt++;
+
             cd_set = true;
             cd_set_t = clock();
         }
     }
-    */
+    if (GetAsyncKeyState(VK_UP) & 0x8000)
+    {
+        clock_t t1;
+        t1 = clock();
+        double diff = t1 - cd_set_t;
+        double secs = diff / CLOCKS_PER_SEC;
+
+        if (!cd_set || (secs > 0.1))
+        {
+            my_lvl->key_buff[cnt] = VK_UP;
+            cnt++;
+
+            cd_set = true;
+            cd_set_t = clock();
+        }
+    }
+    if (GetAsyncKeyState(VK_DOWN) & 0x8000)
+    {
+        clock_t t1;
+        t1 = clock();
+        double diff = t1 - cd_set_t;
+        double secs = diff / CLOCKS_PER_SEC;
+
+        if (!cd_set || (secs > 0.1))
+        {
+            my_lvl->key_buff[cnt] = VK_DOWN;
+            cnt++;
+
+            cd_set = true;
+            cd_set_t = clock();
+        }
+    }
+
+    if (GetAsyncKeyState(D_KEY) & 0x8000)
+    {
+        clock_t t1;
+        t1 = clock();
+        double diff = t1 - cd_set_t;
+        double secs = diff / CLOCKS_PER_SEC;
+
+        if (!cd_set || (secs > 0.1))
+        {
+            my_lvl->key_buff[cnt] = D_KEY;
+            cnt++;
+
+            cd_set = true;
+            cd_set_t = clock();
+        }
+    }
+    if (GetAsyncKeyState(W_KEY) & 0x8000)
+    {
+        clock_t t1;
+        t1 = clock();
+        double diff = t1 - cd_set_t;
+        double secs = diff / CLOCKS_PER_SEC;
+
+        if (!cd_set || (secs > 0.1))
+        {
+            my_lvl->key_buff[cnt] = W_KEY;
+            cnt++;
+
+            cd_set = true;
+            cd_set_t = clock();
+        }
+    }
+    if (GetAsyncKeyState(A_KEY) & 0x8000)
+    {
+        clock_t t1;
+        t1 = clock();
+        double diff = t1 - cd_set_t;
+        double secs = diff / CLOCKS_PER_SEC;
+
+        if (!cd_set || (secs > 0.1))
+        {
+            my_lvl->key_buff[cnt] = A_KEY;
+            cnt++;
+
+            cd_set = true;
+            cd_set_t = clock();
+        }
+    }
+    if (GetAsyncKeyState(S_KEY) & 0x8000)
+    {
+        clock_t t1;
+        t1 = clock();
+        double diff = t1 - cd_set_t;
+        double secs = diff / CLOCKS_PER_SEC;
+
+        if (!cd_set || (secs > 0.1))
+        {
+            my_lvl->key_buff[cnt] = S_KEY;
+            cnt++;
+
+            cd_set = true;
+            cd_set_t = clock();
+        }
+    }
 }
 

@@ -14,3 +14,14 @@
 
 #define game_screen_x 21
 #define game_screen_y 11
+
+#define UP 1
+#define RIGHT 2
+#define DOWN 3
+#define LEFT 4
+
+#define W_KEY 0x57
+#define A_KEY 0x41
+#define S_KEY 0x53
+#define D_KEY 0x44
+

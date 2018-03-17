@@ -43,6 +43,9 @@ wall::wall(int _x, int _y, lvl* _my_lvl)
     erase_called = false;
     spawned = true;
 
+    solid = true;
+    invis = false;
+
     cd_set = false;
     cd_set_t = clock();
 

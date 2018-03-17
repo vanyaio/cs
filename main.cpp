@@ -5,6 +5,7 @@
 #include"vars.h"
 #include"scripts.h"
 #include"user.h"
+#include<fstream>
 int main()
 {
 
@@ -15,12 +16,21 @@ int main()
                WSAGetLastError());
         return -1;
     }
-
-
-    loca _loca(30, 30);
+    //
+    ofstream fout;
+    fout.open("logs.txt");
+    int last = 0;
+    //
+    loca _loca(70, 50);
     while (true)
     {
         _loca.step();
+        //
+        if (last != _loca.cnt)
+        {
+            fout << _loca.cnt << endl;
+            last = _loca.cnt;
+        }
     }
     return 0;
 }

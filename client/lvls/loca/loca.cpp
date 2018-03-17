@@ -30,6 +30,8 @@ loca::loca()
 
     key_buff = new int[key_buff_sz];
     fill(key_buff, key_buff + key_buff_sz, 0);
+    //
+    cnt = 0;
 }
 
 loca::loca(int _x, int _y)
@@ -86,13 +88,20 @@ void loca::update_terminal_lvl(int* signs, int* colors, bool recv_flag)
     for (auto my_obj : my_objs)
         if (my_obj->spawned && my_obj->ind != 1)
             update_terminal(my_obj);
-
+    //
+    bool check = false;
+    //
     for (int i = 0; i < full_screen_x; i++)
         for (int j = 0; j < full_screen_y; j++)
         {
             if (buffer[i][j].color == terminal[i][j].color && buffer[i][j].sign == terminal[i][j].sign)
                 continue;
             print(i, j, terminal[i][j]);
+            if (!check)
+            {
+                cnt++;
+                check = true;
+            }
         }
     for (int i = 0; i < x; i++)
         for (int j = 0; j < y; j++)

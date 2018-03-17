@@ -25,6 +25,9 @@ public:
     bool erase_called;
     bool spawned;
 
+    bool solid;
+    bool invis;
+
     virtual void step() = 0;
     virtual void init() = 0;
 };

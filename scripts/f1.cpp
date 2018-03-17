@@ -89,11 +89,18 @@ void scan_space(int x0, int y0, int x1, int y1, set<obj*>& objs, lvl* _lvl)
 
 void scan_space(obj* _this, int x1, int y1, set<obj*>& objs)
 {
-    int new_x0 = x1 - _this->x_img;
-    int new_y0 = y1 - _this->y_img;
-    int new_x1 = new_x0 + _this->skin->x;
-    int new_y1 = new_y0 + _this->skin->y;
-    scan_space(new_x0, new_y0, new_x1, new_y1, objs, _this->my_lvl);
+    int x0 = x1 - _this->x_img;
+    int y0 = y1 - _this->y_img;
+    for (int i = 0; i < _this->skin->x; i++)
+        for (int j = 0; j < _this->skin->y; j++)
+        {
+            pixel pixel_ij = _this->skin->arr[i][j];
+            if ((pixel_ij.sign == ' ') && (pixel_ij.color == 15))
+                continue;
+
+            for (auto obj_in_cell : _this->my_lvl->room[i + x0][j + y0])
+                objs.insert(obj_in_cell);
+        }
 }
 
 int set_nonblock(SOCKET fd)
@@ -114,7 +121,7 @@ void network_step(lvl* _this)
     SOCKET slave = accept((_this->master), 0, 0);
     if (slave != -1)
     {
-        obj* new_hero = new hero(3, 3, _this);
+        obj* new_hero = new hero(0, 0, _this);
         _this->add_list.push_back(new_hero);
 
         user* new_user = new user(new_hero, slave);

@@ -28,7 +28,8 @@ public:
 
     SOCKET master;
     set<user*> connections;
-
+    //
+    int cnt;
     virtual void update_terminal_lvl() = 0;
     virtual void step() = 0;
 };

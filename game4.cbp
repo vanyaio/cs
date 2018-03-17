@@ -45,6 +45,8 @@
 		<Unit filename="obj.cpp" />
 		<Unit filename="obj.h" />
 		<Unit filename="objs.h" />
+		<Unit filename="objs/bullet/bullet.cpp" />
+		<Unit filename="objs/bullet/bullet.h" />
 		<Unit filename="objs/hero/hero.cpp" />
 		<Unit filename="objs/hero/hero.h" />
 		<Unit filename="objs/wall/wall.cpp" />

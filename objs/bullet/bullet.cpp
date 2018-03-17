@@ -1,24 +1,27 @@
-#include"hero.h"
+#include"bullet.h"
 #include".\..\..\vars.h"
 #include".\..\..\scripts.h"
 #include<string>
-hero::hero()
+bullet::bullet()
 {
-    std::string s = ".\\imgs\\hero.txt";
+    /*
+    std::string s = ".\\imgs\\wall.txt";
     skin = new img(s);
     erase_called = false;
     spawned = true;
-};
-hero::hero(int _x, int _y)
+    */
+}
+bullet::bullet(int _x, int _y)
 {
-    std::string s = ".\\imgs\\hero.txt";
+    /*
+    std::string s = ".\\imgs\\wall.txt";
     skin = new img(s);
     x_room = _x;
     y_room = _y;
     erase_called = false;
     spawned = true;
-    cd_moving_b = false;
-    cd_moving_t = clock();
+    cd_set = false;
+    cd_set_t = clock();
     for (int i = 0; i < skin->x; i++)
         for (int j = 0; j < skin->y; j++)
         {
@@ -29,23 +32,30 @@ hero::hero(int _x, int _y)
             y_img = j;
             return;
         }
+    */
 }
-hero::hero(int _x, int _y, lvl* _my_lvl)
+bullet::bullet(int _x, int _y, lvl* _my_lvl, int _direction, int _dmg, double _cd_moving)
 {
-    depth = 10;
-    name = "hero";
-    std::string s = ".\\imgs\\hero.txt";
+    name = "bullet";
+    depth = 100;
+    std::string s = ".\\imgs\\bullet.txt";
     skin = new img(s);
     x_room = _x;
     y_room = _y;
     my_lvl = _my_lvl;
 
+    dmg = _dmg;
+    cd_moving = _cd_moving;
+    direction = _direction;
+
     erase_called = false;
-    spawned = true;
+    spawned = false;
+
+    solid = true;
+    invis = false;
 
     cd_moving_b = false;
     cd_moving_t = clock();
-    cd_moving = 0.1;
 
     for (int i = 0; i < skin->x; i++)
         for (int j = 0; j < skin->y; j++)
@@ -58,9 +68,14 @@ hero::hero(int _x, int _y, lvl* _my_lvl)
             return;
         }
 }
-
-void hero::init()
+bullet::~bullet()
 {
+    clear_position(this);
+    delete skin;
+}
+void bullet::init()
+{
+    spawned = true;
     int x0 = x_room - x_img;
     int y0 = y_room - y_img;
     for (int i = 0; i < skin->x; i++)
@@ -77,33 +92,30 @@ void hero::init()
 
 };
 
-void hero::step()
+void bullet::step()
 {
-    clock_t t1;
-    t1 = clock();
+    int new_x_room, new_y_room;
+    if (direction == UP)
+    {
+        new_x_room = x_room;
+        new_y_room = y_room - 1;
+    }
+    if (direction == RIGHT)
+    {
+        new_x_room = x_room + 1;
+        new_y_room = y_room;
+    }
+    if (direction == DOWN)
+    {
+        new_x_room = x_room;
+        new_y_room = y_room + 1;
+    }
+    if (direction == LEFT)
+    {
+        new_x_room = x_room - 1;
+        new_y_room = y_room;
+    }
 
-    //if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
-    if (key_pressed(VK_RIGHT))
-        hero_moving(x_room + 1, y_room);
-    if (key_pressed(VK_LEFT))
-        hero_moving(x_room - 1, y_room);
-    if (key_pressed(VK_DOWN))
-        hero_moving(x_room, y_room + 1);
-    if (key_pressed(VK_UP))
-        hero_moving(x_room, y_room - 1);
-
-    if (key_pressed(D_KEY))
-        my_lvl->add_list.push_back(new bullet(x_room + 1, y_room, my_lvl, RIGHT, 1, 0.05));
-    if (key_pressed(W_KEY))
-        my_lvl->add_list.push_back(new bullet(x_room, y_room - 1, my_lvl, UP, 1, 0.05));
-    if (key_pressed(S_KEY))
-        my_lvl->add_list.push_back(new bullet(x_room, y_room + 1, my_lvl, DOWN, 1, 0.05));
-    if (key_pressed(A_KEY))
-        my_lvl->add_list.push_back(new bullet(x_room - 1, y_room, my_lvl, LEFT, 1, 0.05));
-}
-
-void hero::hero_moving(int new_x_room, int new_y_room)
-{
     clock_t t_now;
     t_now = clock();
 
@@ -115,9 +127,12 @@ void hero::hero_moving(int new_x_room, int new_y_room)
         set<obj*> bord;
         scan_space(this, new_x_room, new_y_room, bord);
         bool solid_found = false;
-        for (auto bord_obj : bord)
-            if (bord_obj->solid)
+        for (auto bord_obj : bord){
+            if (bord_obj->solid  && !bord_obj->erase_called)
                 solid_found = true;
+            if (bord_obj->name == "hero")
+                static_cast<hero*>(bord_obj)->hp -= dmg;
+        }
         if (!solid_found)
         {
             clear_position(this);
@@ -126,13 +141,7 @@ void hero::hero_moving(int new_x_room, int new_y_room)
             cd_moving_b = true;
             cd_moving_t = clock();
         }
+        else
+            erase_called = true;
     }
-}
-
-bool hero::key_pressed(int key)
-{
-    for (int i = 0; i < key_buff_sz; i++)
-        if (key == my_user->key_buff[i])
-            return true;
-    return false;
 }

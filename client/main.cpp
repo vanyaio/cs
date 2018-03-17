@@ -1,5 +1,6 @@
 #define _WINSOCKAPI_
 #include<iostream>
+#include<fstream>
 #include<stdio.h>
 #include<winsock2.h>
 #include<windows.h>
@@ -53,32 +54,18 @@ int main()
     while (connect(sock,(sockaddr *)&sock_addr, sizeof(sock_addr)) == -1){}
     system("cls");
 
-    //
-    clock_t cd_set_t = clock();
-    bool cd_set = false;
-    //
 
     loca _loca;
+    //
+    ofstream fout;
+    fout.open("logs.txt");
+    int last = -1;
+    //
     while (true)
     {
         for (int i = 0 ; i < key_buff_sz; ++i)
             _loca.key_buff[i] = htonl(_loca.key_buff[i]);
         send(sock, (char*)_loca.key_buff, key_buff_sz * sizeof(int), 0);
-
-        /*
-        int send_sz[1];
-        recv(sock, (char*)send_sz, sizeof(int), 0);
-        int objs_sz = ntohl(send_sz[0]);
-
-        int objs_ind[objs_sz];
-        recv(sock, (char*)objs_ind, objs_sz * sizeof(int), 0);
-
-        int objs_x[objs_sz];
-        recv(sock, (char*)objs_x, objs_sz * sizeof(int), 0);
-
-        int objs_y[objs_sz];
-        recv(sock, (char*)objs_y, objs_sz * sizeof(int), 0);
-        */
 
         int sz = game_screen_x * game_screen_y;
         int signs[sz];
@@ -98,5 +85,8 @@ int main()
         else
             _loca.step(signs, colors, false);
         //_loca.step(signs, colors, true);
+        if (last != _loca.cnt)
+            fout << _loca.cnt << endl;
+        last = _loca.cnt;
     }
 }
