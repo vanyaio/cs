@@ -28,3 +28,8 @@
 #define A_KEY 0x41
 #define S_KEY 0x53
 #define D_KEY 0x44
+
+#define KEY_1 0x31
+#define KEY_2 0x32
+#define KEY_3 0x33
+#define KEY_4 0x34

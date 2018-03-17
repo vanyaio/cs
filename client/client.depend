@@ -57,7 +57,7 @@
 	"img.h"
 	"stl.h"
 
-1521281432 c:\users\user\desktop\game4\client\stl.h
+1521312815 c:\users\user\desktop\game4\client\stl.h
 	<winsock2.h>
 	<windows.h>
 	<iostream>
@@ -122,7 +122,7 @@
 	".\..\..\scripts.h"
 	<string>
 
-1521285831 source:c:\users\user\desktop\game4\client\objs\key_logger\key_logger.cpp
+1521313835 source:c:\users\user\desktop\game4\client\objs\key_logger\key_logger.cpp
 	"key_logger.h"
 	".\..\..\vars.h"
 	".\..\..\scripts.h"

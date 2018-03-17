@@ -68,6 +68,59 @@ bullet::bullet(int _x, int _y, lvl* _my_lvl, int _direction, int _dmg, double _c
             return;
         }
 }
+bullet::bullet(int _x, int _y, lvl* _my_lvl, int _direction, int skill)
+{
+    name = "bullet";
+    depth = 100;
+    std::string s = ".\\imgs\\bullet.txt";
+    skin = new img(s);
+    x_room = _x;
+    y_room = _y;
+    my_lvl = _my_lvl;
+
+    direction = _direction;
+
+    if (skill == AWP)
+    {
+        dmg = AWP_DMG;
+        cd_moving = AWP_CD_MOVING;
+    }
+    if (skill == SGN)
+    {
+        dmg = SGN_DMG;
+        cd_moving = SGN_CD_MOVING;
+    }
+    if (skill == ARF)
+    {
+        dmg = ARF_DMG;
+        cd_moving = ARF_CD_MOVING;
+    }
+    if (skill == PST)
+    {
+        dmg = PST_DMG;
+        cd_moving = PST_CD_MOVING;
+    }
+
+    erase_called = false;
+    spawned = false;
+
+    solid = true;
+    invis = false;
+
+    cd_moving_b = false;
+    cd_moving_t = clock();
+
+    for (int i = 0; i < skin->x; i++)
+        for (int j = 0; j < skin->y; j++)
+        {
+            pixel pixel_ij = skin->arr[i][j];
+            if ((pixel_ij.sign == ' ') && (pixel_ij.color == 15))
+                continue;
+            x_img = i;
+            y_img = j;
+            return;
+        }
+}
 bullet::~bullet()
 {
     clear_position(this);

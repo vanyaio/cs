@@ -25,3 +25,31 @@
 #define S_KEY 0x53
 #define D_KEY 0x44
 
+#define KEY_1 0x31
+#define KEY_2 0x32
+#define KEY_3 0x33
+#define KEY_4 0x34
+
+#define skills_sz 9
+
+#define AWP 1
+#define AWP_DMG 5
+#define AWP_CD 4.0
+#define AWP_CD_MOVING 0.02
+
+#define SGN 2
+#define SGN_DMG 1
+#define SGN_CD 0.8
+#define SGN_CD_MOVING 0.3
+
+#define ARF 3
+#define ARF_DMG 1
+#define ARF_CD 0.3
+#define ARF_CD_MOVING 0.1
+
+#define PST 4
+#define PST_DMG 1
+#define PST_CD 0.5
+#define PST_CD_MOVING 0.1
+
+

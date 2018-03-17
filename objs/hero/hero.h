@@ -16,7 +16,22 @@ public:
     bool cd_moving_b;
     double cd_moving;
 
+    clock_t cd_awp_t;
+    bool cd_awp_b;
+
+    clock_t cd_sgn_t;
+    bool cd_sgn_b;
+
+    clock_t cd_arf_t;
+    bool cd_arf_b;
+
+    clock_t cd_pst_t;
+    bool cd_pst_b;
+
     int hp;
+
+    int curr_skill;
+    int* skills;
 
     hero();
     hero(int _x, int _y);
@@ -26,5 +41,6 @@ public:
     void init();
     bool key_pressed(int key);
     void hero_moving(int new_x_room, int new_y_room);
+    void skill_cast(int direction);
 };
 #endif

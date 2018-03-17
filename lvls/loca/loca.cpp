@@ -95,6 +95,17 @@ void loca::update_terminal_lvl()
     std::cout.flush();
 }
 
+void smart_delete(obj* _obj)
+{
+    obj* new_obj;
+    if (_obj->name == "hero")
+        new_obj = static_cast<hero*>(_obj);
+    if (_obj->name == "wall")
+        new_obj = static_cast<wall*>(_obj);
+    if (_obj->name == "bullet")
+        new_obj = static_cast<bullet*>(_obj);
+    delete new_obj;
+}
 void loca::step()
 {
     update_terminal_lvl();
@@ -109,6 +120,10 @@ void loca::step()
 
     for (auto my_obj : my_objs_erase_called)
     {
+        if (my_obj->name == "hero")
+            delete static_cast<hero*>(my_obj);
+        if (my_obj->name == "wall")
+            delete static_cast<wall*>(my_obj);
         if (my_obj->name == "bullet")
             delete static_cast<bullet*>(my_obj);
         my_objs.erase(my_obj);

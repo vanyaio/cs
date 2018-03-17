@@ -116,12 +116,21 @@ int set_nonblock(SOCKET fd)
 #endif
 }
 
+void set_spawn(int& _x, int& _y, lvl* _this)
+{
+    _x = 0;
+    _y = 0;
+}
+
 void network_step(lvl* _this)
 {
     SOCKET slave = accept((_this->master), 0, 0);
     if (slave != -1)
     {
-        obj* new_hero = new hero(0, 0, _this);
+        int x_spawn, y_spawn;
+        set_spawn(x_spawn, y_spawn, _this);
+
+        obj* new_hero = new hero(x_spawn, y_spawn, _this);
         _this->add_list.push_back(new_hero);
 
         user* new_user = new user(new_hero, slave);
@@ -137,55 +146,6 @@ void network_step(lvl* _this)
             for (int i = 0 ; i < key_buff_sz; ++i)
                 _user->key_buff[i] = ntohl(_user->key_buff[i]);
         }
-        /*
-        int objs_sz = (_this->my_objs).size();
-        int send_sz[1] = {objs_sz};
-        send_sz[0] = htonl(send_sz[0]);
-        int send1 = send((_user->my_sock), (char*)send_sz, sizeof(int), 0);
-
-        int objs_ind[objs_sz];
-        int i = 0;
-        for (auto obj_sending: (_this->my_objs))
-        {
-            objs_ind[i] = obj_sending->ind;
-            ++i;
-        }
-        for (int j = 0 ; j < objs_sz; ++j)
-            objs_ind[j] = htonl(objs_ind[j]);
-        int send2 = send((_user->my_sock), (char*)objs_ind, sizeof(int) * objs_sz, 0);
-
-
-        int objs_x[objs_sz];
-        i = 0;
-        for (auto obj_sending: (_this->my_objs))
-        {
-            objs_x[i] = obj_sending->x_room;
-            ++i;
-        }
-        for (int j = 0 ; j < objs_sz; ++j)
-            objs_x[j] = htonl(objs_x[j]);
-        int send3 = send((_user->my_sock), (char*)objs_x, sizeof(int) * objs_sz, 0);
-
-        int objs_y[objs_sz];
-        i = 0;
-        for (auto obj_sending: (_this->my_objs))
-        {
-            objs_y[i] = obj_sending->y_room;
-            ++i;
-        }
-        for (int j = 0 ; j < objs_sz; ++j)
-            objs_y[j] = htonl(objs_y[j]);
-        int send4 = send((_user->my_sock), (char*)objs_y, sizeof(int) * objs_sz, 0);
-
-        /*if ((send1 == -1) || (send2 == -1) || (send3 == -1) || (send4 == -1))
-        {
-            cout << 4 << endl;
-            _this->connections.erase(_user);
-            closesocket(_user->my_sock);
-            _user->my_hero->erase_called = true;
-            delete _user;
-            continue;
-        }*/
 
         int signs[game_screen_x * game_screen_y];
         int colors[game_screen_x * game_screen_y];
@@ -217,3 +177,9 @@ bool out_of_border(int x, int y, lvl* _this)
     return false;
 }
 
+double time_passed(clock_t start, clock_t finish)
+{
+    double diff = finish - start;
+    double secs = diff / CLOCKS_PER_SEC;
+    return secs;
+}
