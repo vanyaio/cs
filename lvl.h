@@ -28,9 +28,15 @@ public:
 
     SOCKET master;
     set<user*> connections;
+
+    int* spawns_x;
+    int* spawns_y;
+    int spawns_sz;
     //
     int cnt;
+    //
     virtual void update_terminal_lvl() = 0;
     virtual void step() = 0;
+    virtual void load_map(std::string) = 0;
 };
 #endif // obj_h

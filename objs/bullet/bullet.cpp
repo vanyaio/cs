@@ -104,7 +104,7 @@ bullet::bullet(int _x, int _y, lvl* _my_lvl, int _direction, int skill)
     erase_called = false;
     spawned = false;
 
-    solid = true;
+    solid = false;
     invis = false;
 
     cd_moving_b = false;
@@ -128,6 +128,19 @@ bullet::~bullet()
 }
 void bullet::init()
 {
+    set<obj*> bord;
+    scan_space(this, x_room, y_room, bord);
+    bool solid_found = false;
+    for (auto bord_obj : bord)
+    {
+        if (bord_obj->solid  && !bord_obj->erase_called)
+            solid_found = true;
+        if (bord_obj->name == "hero")
+            static_cast<hero*>(bord_obj)->hp -= dmg;
+    }
+    if (solid_found)
+        return;
+
     spawned = true;
     int x0 = x_room - x_img;
     int y0 = y_room - y_img;
@@ -147,6 +160,9 @@ void bullet::init()
 
 void bullet::step()
 {
+    if (erase_called)
+        return;
+
     int new_x_room, new_y_room;
     if (direction == UP)
     {
@@ -180,7 +196,8 @@ void bullet::step()
         set<obj*> bord;
         scan_space(this, new_x_room, new_y_room, bord);
         bool solid_found = false;
-        for (auto bord_obj : bord){
+        for (auto bord_obj : bord)
+        {
             if (bord_obj->solid  && !bord_obj->erase_called)
                 solid_found = true;
             if (bord_obj->name == "hero")

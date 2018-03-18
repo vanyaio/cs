@@ -116,10 +116,33 @@ int set_nonblock(SOCKET fd)
 #endif
 }
 
+int rand_num(int mx)
+{
+    return (rand() % mx);
+}
 void set_spawn(int& _x, int& _y, lvl* _this)
 {
-    _x = 0;
-    _y = 0;
+    set<int> free_spawns;
+    int cnt = 0;
+    for (int i = 0; i < _this->spawns_sz; i++)
+        if (_this->room[_this->spawns_x[i]][_this->spawns_y[i]].empty()){
+            free_spawns.insert(i);
+            cnt++;
+        }
+
+
+    int ret = rand_num(cnt);
+    cnt = 0;
+    for (auto it : free_spawns)
+    {
+        if (cnt == ret)
+        {
+            _x = _this->spawns_x[ret];
+            _y = _this->spawns_y[ret];
+            return;
+        }
+        cnt++;
+    }
 }
 
 void network_step(lvl* _this)

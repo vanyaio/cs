@@ -4,13 +4,16 @@
 #include<string>
 hero::hero()
 {
+    /*
     std::string s = ".\\imgs\\hero.txt";
     skin = new img(s);
     erase_called = false;
     spawned = true;
-};
+    */
+}
 hero::hero(int _x, int _y)
 {
+    /*
     std::string s = ".\\imgs\\hero.txt";
     skin = new img(s);
     x_room = _x;
@@ -29,10 +32,12 @@ hero::hero(int _x, int _y)
             y_img = j;
             return;
         }
+    */
 }
 hero::hero(int _x, int _y, lvl* _my_lvl)
 {
     depth = 10;
+    hp = 2;
     name = "hero";
     std::string s = ".\\imgs\\hero.txt";
     skin = new img(s);
@@ -41,11 +46,21 @@ hero::hero(int _x, int _y, lvl* _my_lvl)
     my_lvl = _my_lvl;
 
     erase_called = false;
-    spawned = true;
+    spawned = false;
 
     cd_moving_b = false;
     cd_moving_t = clock();
     cd_moving = 0.1;
+
+    skills = new int[skills_sz];
+    fill(skills, skills + skills_sz, 10);
+    skills[PST] = INT_MAX;
+    curr_skill = PST;
+
+    cd_awp_b = false;
+    cd_sgn_b = false;
+    cd_arf_b = false;
+    cd_pst_b = false;
 
     for (int i = 0; i < skin->x; i++)
         for (int j = 0; j < skin->y; j++)
@@ -57,20 +72,14 @@ hero::hero(int _x, int _y, lvl* _my_lvl)
             y_img = j;
             return;
         }
-
-    skills = new int[skills_sz];
-    fill(skills, skills + skills_sz, 0);
-    skills[PST] = INT_MAX;
-    curr_skill = PST;
-
-    cd_awp_b = false;
-    cd_sgn_b = false;
-    cd_arf_b = false;
-    cd_pst_b = false;
 }
 
 void hero::init()
 {
+    if (!spawned)
+        my_lvl->my_objs.insert(this);
+    spawned = true;
+
     int x0 = x_room - x_img;
     int y0 = y_room - y_img;
     for (int i = 0; i < skin->x; i++)
@@ -82,9 +91,6 @@ void hero::init()
 
             my_lvl->room[i + x0][j + y0].push_back(this);
         }
-
-    my_lvl->my_objs.insert(this);
-
 };
 
 void hero::skill_cast(int direction)
@@ -99,31 +105,60 @@ void hero::skill_cast(int direction)
     if (direction == RIGHT)
         x_dir++;
 
-    //DON'T FORGET ABOUT AMMO!!!
-    if (curr_skill == AWP && (!cd_awp_b || (time_passed(cd_awp_t, clock()) > AWP_CD)))
+    clock_t t_now = clock();
+    if (curr_skill == AWP && (!cd_awp_b || (time_passed(cd_awp_t, t_now) > AWP_CD)) && (skills[AWP] > 0))
     {
-        my_lvl->add_list.push_back(new bullet(x_dir, y_dir, my_lvl, direction, curr_skill));
         cd_awp_b = true;
+        my_lvl->add_list.push_back(new bullet(x_dir, y_dir, my_lvl, direction, curr_skill));
         cd_awp_t = clock();
+        skills[AWP]--;
     }
-    if (curr_skill == PST && (!cd_pst_b || (time_passed(cd_pst_t, clock()) > PST_CD))){
+    if (curr_skill == PST && (!cd_pst_b || (time_passed(cd_pst_t, t_now) > PST_CD)) && (skills[PST] > 0))
+    {
+        cd_pst_b = true;
         my_lvl->add_list.push_back(new bullet(x_dir, y_dir, my_lvl, direction, curr_skill));
         cd_pst_t = clock();
+        skills[PST]--;
     }
-    if (curr_skill == SGN && (!cd_sgn_b || (time_passed(cd_sgn_t, clock()) > SGN_CD))){
+    if (curr_skill == SGN && (!cd_sgn_b || (time_passed(cd_sgn_t, t_now) > SGN_CD)) && (skills[SGN] > 0))
+    {
+        cd_sgn_b = true;
         my_lvl->add_list.push_back(new bullet(x_dir, y_dir, my_lvl, direction, curr_skill));
         cd_sgn_t = clock();
+        skills[SGN]--;
     }
-    if (curr_skill == ARF && (!cd_arf_b || (time_passed(cd_arf_t, clock()) > ARF_CD))){
+    if (curr_skill == ARF && (!cd_arf_b || (time_passed(cd_arf_t, t_now) > ARF_CD)) && (skills[ARF] > 0))
+    {
+        cd_arf_b = true;
         my_lvl->add_list.push_back(new bullet(x_dir, y_dir, my_lvl, direction, curr_skill));
         cd_arf_t = clock();
+        skills[ARF]--;
     }
 }
 void hero::step()
 {
-    clock_t t1;
-    t1 = clock();
+    if (hp <= 0)
+    {
+        clear_position(this);
+        set_spawn(x_room, y_room, my_lvl);
+        init();
 
+        hp = 2;
+        cd_moving_b = false;
+        cd_moving_t = clock();
+        cd_moving = 0.1;
+
+        fill(skills, skills + skills_sz, 10);
+        skills[PST] = INT_MAX;
+        curr_skill = PST;
+
+        cd_awp_b = false;
+        cd_sgn_b = false;
+        cd_arf_b = false;
+        cd_pst_b = false;
+
+        return;
+    }
     //if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
     if (key_pressed(VK_RIGHT))
         hero_moving(x_room + 1, y_room);
@@ -168,8 +203,26 @@ void hero::hero_moving(int new_x_room, int new_y_room)
         scan_space(this, new_x_room, new_y_room, bord);
         bool solid_found = false;
         for (auto bord_obj : bord)
+        {
             if (bord_obj->solid)
                 solid_found = true;
+            if (bord_obj->name == "bonus")
+            {
+                if (bord_obj->ind == AWP)
+                    skills[AWP] += AWP_AMMO;
+                if (bord_obj->ind == ARF)
+                    skills[ARF] += ARF_AMMO;
+                if (bord_obj->ind == SGN)
+                    skills[SGN] += SGN_AMMO;
+                //
+                bord_obj->erase_called = true;
+            }
+            if (bord_obj->name == "bullet")
+            {
+                hp -= static_cast<bullet*>(bord_obj)->dmg;
+                bord_obj->erase_called = true;
+            }
+        }
         if (!solid_found)
         {
             clear_position(this);

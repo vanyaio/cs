@@ -22,4 +22,6 @@ void set_spawn(int& _x, int& _y, lvl* _this);
 bool out_of_border(int x, int y, lvl* _this);
 
 double time_passed(clock_t start, clock_t finish);
+
+int rand_num(int mx);
 #endif

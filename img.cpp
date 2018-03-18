@@ -9,7 +9,7 @@ pixel::pixel()
     color = -1;
 };
 
-pixel::pixel(char _sign, int _color = -1)
+pixel::pixel(char _sign, int _color)
 {
     sign = _sign;
     color = _color;
@@ -61,12 +61,14 @@ img& img::operator=(const img& a)
 }
 img::img(string img_path)
 {
+
     ifstream img_in;
     img_in.open((img_path).c_str());
 
     int _x, _y;
     img_in >> _x >> _y;
-    x = _y;
+
+    x = _x;
     y = _y;
 
     arr = new pixel*[x];
@@ -78,13 +80,16 @@ img::img(string img_path)
             arr[i][j] = pixel(' ', 15);
     int cnt;
     img_in >> cnt;
+
     for(int i = 0; i < cnt; i++)
     {
         int _x, _y;
         char _sign;
         int _color;
         img_in >> _x >>_y >> _sign >> _color;
+
         arr[_x][_y] = pixel(_sign, _color);
     }
+
 }
 

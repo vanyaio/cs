@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1519918431 source:c:\users\user\desktop\game4\img.cpp
+1521370071 source:c:\users\user\desktop\game4\img.cpp
 	"img.h"
 	<iostream>
 	<fstream>
@@ -10,19 +10,20 @@
 
 1519788627 source:c:\users\user\desktop\game4\lvl.cpp
 
-1521315085 source:c:\users\user\desktop\game4\lvls\loca\loca.cpp
+1521394852 source:c:\users\user\desktop\game4\lvls\loca\loca.cpp
 	"loca.h"
 	".\..\..\vars.h"
 	".\..\..\scripts.h"
+	<fstream>
 
-1521020114 c:\users\user\desktop\game4\lvls\loca\loca.h
+1521400178 c:\users\user\desktop\game4\lvls\loca\loca.h
 	".\..\..\lvl.h"
 	".\..\..\objs.h"
 	".\..\..\lvls.h"
 	".\..\..\img.h"
 	".\..\..\stl.h"
 
-1521256511 c:\users\user\desktop\game4\lvl.h
+1521394372 c:\users\user\desktop\game4\lvl.h
 	"obj.h"
 	"user.h"
 	"img.h"
@@ -34,7 +35,7 @@
 	"img.h"
 	"stl.h"
 
-1521316630 c:\users\user\desktop\game4\stl.h
+1521398955 c:\users\user\desktop\game4\stl.h
 	<winsock2.h>
 	<windows.h>
 	<iostream>
@@ -44,11 +45,13 @@
 	<stdio.h>
 	<list>
 	<set>
+	<cstdlib>
 
-1521280144 c:\users\user\desktop\game4\objs.h
+1521365229 c:\users\user\desktop\game4\objs.h
 	".\objs\hero\hero.h"
 	".\objs\wall\wall.h"
 	".\objs\bullet\bullet.h"
+	".\objs\bonus\bonus.h"
 
 1521317048 c:\users\user\desktop\game4\objs\hero\hero.h
 	".\..\..\obj.h"
@@ -70,7 +73,7 @@
 1519788627 c:\users\user\desktop\game4\scripts.h
 	".\scripts\f1.h"
 
-1521312724 c:\users\user\desktop\game4\scripts\f1.h
+1521398974 c:\users\user\desktop\game4\scripts\f1.h
 	".\..\objs.h"
 	".\..\lvls.h"
 	".\..\img.h"
@@ -89,7 +92,7 @@
 
 1519788627 source:c:\users\user\desktop\game4\obj.cpp
 
-1521315146 source:c:\users\user\desktop\game4\scripts\f1.cpp
+1521399222 source:c:\users\user\desktop\game4\scripts\f1.cpp
 	"f1.h"
 	".\..\vars.h"
 	".\..\scripts.h"
@@ -98,7 +101,7 @@
 	"vars.h"
 	"scripts.h"
 
-1521316963 source:c:\users\user\desktop\game4\objs\hero\hero.cpp
+1521395992 source:c:\users\user\desktop\game4\objs\hero\hero.cpp
 	"hero.h"
 	".\..\..\vars.h"
 	".\..\..\scripts.h"
@@ -133,8 +136,21 @@
 	".\..\..\img.h"
 	".\..\..\stl.h"
 
-1521316233 source:c:\users\user\desktop\game4\objs\bullet\bullet.cpp
+1521395677 source:c:\users\user\desktop\game4\objs\bullet\bullet.cpp
 	"bullet.h"
+	".\..\..\vars.h"
+	".\..\..\scripts.h"
+	<string>
+
+1521394564 c:\users\user\desktop\game4\objs\bonus\bonus.h
+	".\..\..\obj.h"
+	".\..\..\objs.h"
+	".\..\..\lvls.h"
+	".\..\..\img.h"
+	".\..\..\stl.h"
+
+1521400748 source:c:\users\user\desktop\game4\objs\bonus\bonus.cpp
+	"bonus.h"
 	".\..\..\vars.h"
 	".\..\..\scripts.h"
 	<string>

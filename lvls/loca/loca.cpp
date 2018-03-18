@@ -2,6 +2,9 @@
 #include".\..\..\vars.h"
 #include".\..\..\scripts.h"
 
+#include<fstream>
+using namespace std;
+
 loca::loca()
 {
 }
@@ -16,9 +19,11 @@ loca::loca(int _x, int _y)
     for (int i = 0; i < x; i++)
         room[i] = new list<obj*>[y];
 
-    //add_list.push_back(new hero(x/2, y/2, this));
-    //add_list.push_back(new wall((x/2) + 7, y/2, this));
+    cd_spawn_b = false;
+    cd_spawn = 2.0;
+
     add_list.push_back(new wall(40, 20, this));
+
     buffer = new pixel*[x];
     for (int i = 0; i < x; i++)
         buffer[i] = new pixel[y];
@@ -108,6 +113,12 @@ void smart_delete(obj* _obj)
 }
 void loca::step()
 {
+    //
+    string path = "kek";
+    //
+    if (first_enter)
+        load_map(path);
+
     update_terminal_lvl();
 
     for (auto my_obj : my_objs)
@@ -126,7 +137,14 @@ void loca::step()
             delete static_cast<wall*>(my_obj);
         if (my_obj->name == "bullet")
             delete static_cast<bullet*>(my_obj);
+        if (my_obj->name == "bonus")
+            delete static_cast<bonus*>(my_obj);
         my_objs.erase(my_obj);
+    }
+    if (!cd_spawn_b || (time_passed(cd_spawn_t, clock()) > cd_spawn)){
+        spawn_bonus();
+        cd_spawn_b = true;
+        cd_spawn_t = clock();
     }
 
     for (auto new_obj : add_list)
@@ -134,4 +152,21 @@ void loca::step()
     add_list.clear();
 
     network_step(this);
+}
+
+void loca::load_map(string path)
+{
+    spawns_sz = 2;
+    spawns_x = new int[2];
+    spawns_y = new int[2];
+    spawns_x[0] = 3;
+    spawns_x[1] = 25;
+    spawns_y[0] = 10;
+    spawns_y[1] = 10;
+}
+void loca::spawn_bonus()
+{
+    int _x, _y;
+    set_spawn(_x, _y, this);
+    add_list.push_back(new bonus(_x, _y, this, ARF));
 }

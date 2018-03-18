@@ -8,6 +8,7 @@
 #include<stdio.h>
 #include<list>
 #include<set>
+#include<cstdlib>
 
 #define SERVERADDR "127.0.0.1"
 #define key_buff_sz 5
@@ -36,20 +37,23 @@
 #define AWP_DMG 5
 #define AWP_CD 4.0
 #define AWP_CD_MOVING 0.02
+#define AWP_AMMO 5
 
 #define SGN 2
-#define SGN_DMG 1
+#define SGN_DMG 10
 #define SGN_CD 0.8
 #define SGN_CD_MOVING 0.3
+#define SGN_AMMO 8
 
 #define ARF 3
-#define ARF_DMG 1
+#define ARF_DMG 10
 #define ARF_CD 0.3
 #define ARF_CD_MOVING 0.1
+#define ARF_AMMO 15
 
 #define PST 4
-#define PST_DMG 1
+#define PST_DMG 10
 #define PST_CD 0.5
 #define PST_CD_MOVING 0.1
-
+#define PST_AMMO 15
 
