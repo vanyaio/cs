@@ -20,9 +20,7 @@ loca::loca(int _x, int _y)
         room[i] = new list<obj*>[y];
 
     cd_spawn_b = false;
-    cd_spawn = 2.0;
-
-    add_list.push_back(new wall(40, 20, this));
+    cd_spawn = 10.0;
 
     buffer = new pixel*[x];
     for (int i = 0; i < x; i++)
@@ -53,6 +51,8 @@ loca::loca(int _x, int _y)
 
     bind(master, (struct sockaddr*)(&sock_addr), sizeof(sock_addr));
     listen(master, 0x100);
+
+    response_time = 4.0;
     //
     cnt = 0;
 }
@@ -131,14 +131,17 @@ void loca::step()
 
     for (auto my_obj : my_objs_erase_called)
     {
-        if (my_obj->name == "hero")
+        string name = my_obj->name;
+        if (name == "hero")
             delete static_cast<hero*>(my_obj);
-        if (my_obj->name == "wall")
+        if (name == "wall")
             delete static_cast<wall*>(my_obj);
-        if (my_obj->name == "bullet")
+        if (name == "bullet")
             delete static_cast<bullet*>(my_obj);
-        if (my_obj->name == "bonus")
+        if (name == "bonus")
             delete static_cast<bonus*>(my_obj);
+        if (name == "grn")
+            delete static_cast<grn*>(my_obj);
         my_objs.erase(my_obj);
     }
     if (!cd_spawn_b || (time_passed(cd_spawn_t, clock()) > cd_spawn)){
@@ -156,17 +159,27 @@ void loca::step()
 
 void loca::load_map(string path)
 {
-    spawns_sz = 2;
-    spawns_x = new int[2];
-    spawns_y = new int[2];
+    spawns_sz = 3;
+    spawns_x = new int[spawns_sz];
+    spawns_y = new int[spawns_sz];
     spawns_x[0] = 3;
     spawns_x[1] = 25;
     spawns_y[0] = 10;
     spawns_y[1] = 10;
+    spawns_x[2] = 15;
+    spawns_y[2] = 15;
+    //
+    add_list.push_back(new wall(40, 20, this));
+    //add_list.push_back(new grn(40, 17, this, DOWN, nullptr));
 }
 void loca::spawn_bonus()
 {
     int _x, _y;
     set_spawn(_x, _y, this);
-    add_list.push_back(new bonus(_x, _y, this, ARF));
+    obj* p1 = new bonus(_x, _y, this, SPD);
+    p1->init();
+    //does not work, need init
+    set_spawn(_x, _y, this);
+    p1 = new bonus(_x, _y, this, SMK);
+    p1->init();
 }

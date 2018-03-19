@@ -36,8 +36,8 @@ hero::hero(int _x, int _y)
 }
 hero::hero(int _x, int _y, lvl* _my_lvl)
 {
-    depth = 10;
-    hp = 2;
+    depth = 3;
+    hp = 11;
     name = "hero";
     std::string s = ".\\imgs\\hero.txt";
     skin = new img(s);
@@ -61,6 +61,14 @@ hero::hero(int _x, int _y, lvl* _my_lvl)
     cd_sgn_b = false;
     cd_arf_b = false;
     cd_pst_b = false;
+    cd_grn_b = false;
+    cd_hpu_b = false;
+    cd_spd_b = false;
+
+    cd_grn_immune_b = false;
+    cd_grn_immune = 0.15;
+
+    spd_on = false;
 
     for (int i = 0; i < skin->x; i++)
         for (int j = 0; j < skin->y; j++)
@@ -73,7 +81,12 @@ hero::hero(int _x, int _y, lvl* _my_lvl)
             return;
         }
 }
-
+hero::~hero()
+{
+    clear_position(this);
+    delete[] skills;
+    delete skin;
+}
 void hero::init()
 {
     if (!spawned)
@@ -134,16 +147,34 @@ void hero::skill_cast(int direction)
         cd_arf_t = clock();
         skills[ARF]--;
     }
+
+    if (curr_skill == GRN && (!cd_grn_b || (time_passed(cd_grn_t, t_now) > GRN_CD)) && (skills[GRN] > 0))
+    {
+        cd_grn_b = true;
+        my_lvl->add_list.push_back(new grn(x_dir, y_dir, my_lvl, direction, this));
+        cd_grn_t = clock();
+        skills[GRN]--;
+    }
+    if (curr_skill == SMK && (!cd_grn_b || (time_passed(cd_grn_t, t_now) > GRN_CD)) && (skills[SMK] > 0))
+    {
+        cd_grn_b = true;
+        my_lvl->add_list.push_back(new smk(x_dir, y_dir, my_lvl, direction, this));
+        cd_grn_t = clock();
+        skills[SMK]--;
+    }
 }
 void hero::step()
 {
+    if (erase_called)
+        return;
+
     if (hp <= 0)
     {
         clear_position(this);
         set_spawn(x_room, y_room, my_lvl);
         init();
 
-        hp = 2;
+        hp = 11;
         cd_moving_b = false;
         cd_moving_t = clock();
         cd_moving = 0.1;
@@ -159,6 +190,12 @@ void hero::step()
 
         return;
     }
+    if (spd_on && (time_passed(cd_spd_t, clock()) > SPD_DURATION))
+    {
+        spd_on = false;
+        cd_moving = 0.1;
+    }
+
     //if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
     if (key_pressed(VK_RIGHT))
         hero_moving(x_room + 1, y_room);
@@ -178,6 +215,26 @@ void hero::step()
     if (key_pressed(A_KEY))
         skill_cast(LEFT);
 
+    clock_t t_now = clock();
+    if (key_pressed(VK_SPACE))
+    {
+        if (curr_skill == HPU && (!cd_hpu_b || (time_passed(cd_hpu_t, t_now) > HPU_CD)) && (skills[HPU] > 0))
+        {
+            cd_hpu_b = true;
+            hp += HP_UP;
+            cd_hpu_t = clock();
+            skills[HPU]--;
+        }
+        if (curr_skill == SPD && (!cd_spd_b || (time_passed(cd_spd_t, t_now) > SPD_CD)) && (skills[SPD] > 0))
+        {
+            cd_spd_b = true;
+            cd_moving = SPD_UP;
+            spd_on = true;
+            cd_spd_t = clock();
+            skills[SPD]--;
+        }
+    }
+
     if (key_pressed(KEY_1))
         curr_skill = AWP;
     if (key_pressed(KEY_2))
@@ -186,7 +243,14 @@ void hero::step()
         curr_skill = ARF;
     if (key_pressed(KEY_4))
         curr_skill = PST;
-
+    if (key_pressed(KEY_5))
+        curr_skill = GRN;
+    if (key_pressed(KEY_6))
+        curr_skill = SMK;
+    if (key_pressed(KEY_7))
+        curr_skill = HPU;
+    if (key_pressed(KEY_8))
+        curr_skill = SPD;
 }
 
 void hero::hero_moving(int new_x_room, int new_y_room)
@@ -214,6 +278,14 @@ void hero::hero_moving(int new_x_room, int new_y_room)
                     skills[ARF] += ARF_AMMO;
                 if (bord_obj->ind == SGN)
                     skills[SGN] += SGN_AMMO;
+                if (bord_obj->ind == GRN)
+                    skills[GRN] += GRN_AMMO;
+                if (bord_obj->ind == SMK)
+                    skills[SMK] += SMK_AMMO;
+                if (bord_obj->ind == HPU)
+                    skills[HPU] += HPU_AMMO;
+                if (bord_obj->ind == SPD)
+                    skills[SPD] += SPD_AMMO;
                 //
                 bord_obj->erase_called = true;
             }
@@ -221,6 +293,20 @@ void hero::hero_moving(int new_x_room, int new_y_room)
             {
                 hp -= static_cast<bullet*>(bord_obj)->dmg;
                 bord_obj->erase_called = true;
+            }
+
+            if (bord_obj->name == "grn")
+            {
+                if (!cd_grn_immune_b || (time_passed(cd_grn_immune_t, clock()) > cd_grn_immune))
+                {
+                    if  (!static_cast<grn*>(bord_obj)->is_flying)
+                    {
+                        cd_grn_immune_b = true;
+                        cd_grn_immune_t = clock();
+
+                        hp -= static_cast<grn*>(bord_obj)->dmg;
+                    }
+                }
             }
         }
         if (!solid_found)

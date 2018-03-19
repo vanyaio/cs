@@ -9,4 +9,5 @@ user::user(obj* _my_hero, SOCKET _my_sock)
 }
 user::~user()
 {
+    delete[] key_buff;
 }

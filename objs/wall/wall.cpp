@@ -33,7 +33,7 @@ wall::wall(int _x, int _y)
 wall::wall(int _x, int _y, lvl* _my_lvl)
 {
     name = "wall";
-    depth = 100;
+    depth = 0;
     std::string s = ".\\imgs\\wall.txt";
     skin = new img(s);
     x_room = _x;

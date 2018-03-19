@@ -28,6 +28,8 @@ public:
 
     SOCKET master;
     set<user*> connections;
+    map<user*, clock_t> breaking_time;
+    double response_time;
 
     int* spawns_x;
     int* spawns_y;

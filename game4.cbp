@@ -49,8 +49,12 @@
 		<Unit filename="objs/bonus/bonus.h" />
 		<Unit filename="objs/bullet/bullet.cpp" />
 		<Unit filename="objs/bullet/bullet.h" />
+		<Unit filename="objs/grn/grn.cpp" />
+		<Unit filename="objs/grn/grn.h" />
 		<Unit filename="objs/hero/hero.cpp" />
 		<Unit filename="objs/hero/hero.h" />
+		<Unit filename="objs/smk/smk.cpp" />
+		<Unit filename="objs/smk/smk.h" />
 		<Unit filename="objs/wall/wall.cpp" />
 		<Unit filename="objs/wall/wall.h" />
 		<Unit filename="scripts.h" />

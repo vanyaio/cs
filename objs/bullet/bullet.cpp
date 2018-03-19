@@ -37,7 +37,7 @@ bullet::bullet(int _x, int _y)
 bullet::bullet(int _x, int _y, lvl* _my_lvl, int _direction, int _dmg, double _cd_moving)
 {
     name = "bullet";
-    depth = 100;
+    depth = 10;
     std::string s = ".\\imgs\\bullet.txt";
     skin = new img(s);
     x_room = _x;

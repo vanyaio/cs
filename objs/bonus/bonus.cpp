@@ -8,7 +8,7 @@ bonus::bonus()
 
 bonus::bonus(int _x, int _y, lvl* _my_lvl, int skill)
 {
-    depth = 1000;
+    depth = 1;
     name = "bonus";
     ind = skill;
 
@@ -22,6 +22,15 @@ bonus::bonus(int _x, int _y, lvl* _my_lvl, int skill)
     if (skill == ARF)
         s = ".\\imgs\\arf.txt";
 
+    if (skill == HPU)
+        s = ".\\imgs\\hpu.txt";
+    if (skill == SPD)
+        s = ".\\imgs\\spd.txt";
+    if (skill == GRN)
+        s = ".\\imgs\\grn1.txt";
+    if (skill == SMK)
+        s = ".\\imgs\\smk1.txt";
+
     skin = new img(s);
     x_room = _x;
     y_room = _y;
@@ -33,7 +42,7 @@ bonus::bonus(int _x, int _y, lvl* _my_lvl, int skill)
     solid = false;
     invis = false;
 
-    living_time = 1.0;
+    living_time = 5.0;
 
     for (int i = 0; i < skin->x; i++)
         for (int j = 0; j < skin->y; j++)
@@ -75,6 +84,8 @@ void bonus::init()
 
 void bonus::step()
 {
+    if (erase_called)
+        return;
     clock_t t_now = clock();
     if (time_passed(living_begin, t_now) > living_time)
         erase_called = true;

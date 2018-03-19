@@ -28,12 +28,27 @@ public:
     clock_t cd_pst_t;
     bool cd_pst_b;
 
+    clock_t cd_grn_t;
+    bool cd_grn_b;
+
+    clock_t cd_grn_immune_t;
+    bool cd_grn_immune_b;
+    double cd_grn_immune;
+
+    clock_t cd_hpu_t;
+    bool cd_hpu_b;
+
+    clock_t cd_spd_t;
+    bool cd_spd_b;
+    bool spd_on;
+
     int hp;
 
     int curr_skill;
     int* skills;
 
     hero();
+    ~hero();
     hero(int _x, int _y);
     hero(int _x, int _y, lvl* _my_lvl);
 

@@ -9,6 +9,7 @@
 #include<list>
 #include<set>
 #include<cstdlib>
+#include<map>
 
 #define SERVERADDR "127.0.0.1"
 #define key_buff_sz 5
@@ -30,6 +31,10 @@
 #define KEY_2 0x32
 #define KEY_3 0x33
 #define KEY_4 0x34
+#define KEY_5 0x35
+#define KEY_6 0x36
+#define KEY_7 0x37
+#define KEY_8 0x38
 
 #define skills_sz 9
 
@@ -57,3 +62,20 @@
 #define PST_CD_MOVING 0.1
 #define PST_AMMO 15
 
+#define GRN 5
+#define GRN_CD 2.0
+#define GRN_AMMO 13
+
+#define SMK 6
+#define SMK_AMMO 15
+
+#define HPU 7
+#define HPU_CD 0.3
+#define HPU_AMMO 15
+#define HP_UP 10
+
+#define SPD 8
+#define SPD_AMMO 15
+#define SPD_CD 0.3
+#define SPD_UP 0.01
+#define SPD_DURATION 7.0

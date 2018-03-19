@@ -33,3 +33,7 @@
 #define KEY_2 0x32
 #define KEY_3 0x33
 #define KEY_4 0x34
+#define KEY_5 0x35
+#define KEY_6 0x36
+#define KEY_7 0x37
+#define KEY_8 0x38

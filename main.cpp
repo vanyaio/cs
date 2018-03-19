@@ -8,7 +8,7 @@
 #include<fstream>
 int main()
 {
-
+    srand(time(0));
     char buff[1024];
     if (WSAStartup(0x0202,(WSADATA *) &buff[0]))
     {

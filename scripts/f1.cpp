@@ -130,18 +130,23 @@ void set_spawn(int& _x, int& _y, lvl* _this)
             cnt++;
         }
 
-
     int ret = rand_num(cnt);
     cnt = 0;
     for (auto it : free_spawns)
     {
         if (cnt == ret)
         {
-            _x = _this->spawns_x[ret];
-            _y = _this->spawns_y[ret];
+            _x = _this->spawns_x[it];
+            _y = _this->spawns_y[it];
             return;
         }
         cnt++;
+    }
+
+    if (cnt == 0)
+    {
+        _x = -1;
+        _y = -1;
     }
 }
 
@@ -160,7 +165,10 @@ void network_step(lvl* _this)
         _this->connections.insert(new_user);
 
         (static_cast<hero*>(new_hero))->my_user = new_user;
+
+        _this->breaking_time[new_user] = 0;
     }
+    set<user*> to_erase;
     for (auto _user : _this->connections)
     {
         int gotten = recv((_user->my_sock), (char*)(_user->key_buff), key_buff_sz * sizeof(int), 0);
@@ -186,9 +194,26 @@ void network_step(lvl* _this)
                 signs[cnt] = htonl((int)_this->terminal[i][j].sign);
                 colors[cnt] = htonl((int)_this->terminal[i][j].color);
             }
-        send((_user->my_sock), (char*)signs, sizeof(int) * game_screen_x * game_screen_y, 0);
-        send((_user->my_sock), (char*)colors, sizeof(int) * game_screen_x * game_screen_y, 0);
+        int send1 = send((_user->my_sock), (char*)signs, sizeof(int) * game_screen_x * game_screen_y, 0);
+        int send2 = send((_user->my_sock), (char*)colors, sizeof(int) * game_screen_x * game_screen_y, 0);
+        //cout << send1 << " " << send2 << endl;
+        if((send1 == -1) || (send2 == -1))
+        {
+            if (_this->breaking_time[_user] == 0)
+                _this->breaking_time[_user] = clock();
+            else
+                if (time_passed(_this->breaking_time[_user], clock()) > _this->response_time){
+                    _user->my_hero->erase_called = true;
+                    delete _user;
+                    to_erase.insert(_user);
+                }
+        }
+        else
+            _this->breaking_time[_user] = 0;
     }
+
+    for (auto it : to_erase)
+        _this->connections.erase(it);
 }
 
 bool out_of_border(int x, int y, lvl* _this)

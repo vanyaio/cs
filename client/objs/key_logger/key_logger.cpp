@@ -110,5 +110,35 @@ void key_logger::step()
         my_lvl->key_buff[cnt] = KEY_4;
         cnt++;
     }
+    if (GetAsyncKeyState(KEY_5) & 0x8000)
+    {
+
+        my_lvl->key_buff[cnt] = KEY_5;
+        cnt++;
+    }
+    if (GetAsyncKeyState(KEY_6) & 0x8000)
+    {
+
+        my_lvl->key_buff[cnt] = KEY_6;
+        cnt++;
+    }
+    if (GetAsyncKeyState(KEY_7) & 0x8000)
+    {
+
+        my_lvl->key_buff[cnt] = KEY_7;
+        cnt++;
+    }
+    if (GetAsyncKeyState(KEY_8) & 0x8000)
+    {
+
+        my_lvl->key_buff[cnt] = KEY_8;
+        cnt++;
+    }
+    if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+    {
+
+        my_lvl->key_buff[cnt] = VK_SPACE;
+        cnt++;
+    }
 }
 
