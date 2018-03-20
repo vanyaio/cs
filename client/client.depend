@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1521234859 source:c:\users\user\desktop\game4\client\main.cpp
+1521559424 source:c:\users\user\desktop\game4\client\main.cpp
 	<iostream>
 	<fstream>
 	<stdio.h>
@@ -27,19 +27,19 @@
 
 1519788627 source:c:\users\user\desktop\game4\client\lvl.cpp
 
-1521234981 source:c:\users\user\desktop\game4\client\lvls\loca\loca.cpp
+1521559765 source:c:\users\user\desktop\game4\client\lvls\loca\loca.cpp
 	"loca.h"
 	".\..\..\vars.h"
 	".\..\..\scripts.h"
 
-1521221946 c:\users\user\desktop\game4\client\lvls\loca\loca.h
+1521557574 c:\users\user\desktop\game4\client\lvls\loca\loca.h
 	".\..\..\lvl.h"
 	".\..\..\objs.h"
 	".\..\..\lvls.h"
 	".\..\..\img.h"
 	".\..\..\stl.h"
 
-1521234600 c:\users\user\desktop\game4\client\lvl.h
+1521559365 c:\users\user\desktop\game4\client\lvl.h
 	"obj.h"
 	"user.h"
 	"img.h"
@@ -57,7 +57,7 @@
 	"img.h"
 	"stl.h"
 
-1521474636 c:\users\user\desktop\game4\client\stl.h
+1521559202 c:\users\user\desktop\game4\client\stl.h
 	<winsock2.h>
 	<windows.h>
 	<iostream>
@@ -107,7 +107,7 @@
 1519788627 c:\users\user\desktop\game4\client\scripts.h
 	".\scripts\f1.h"
 
-1521104652 c:\users\user\desktop\game4\client\scripts\f1.h
+1521558812 c:\users\user\desktop\game4\client\scripts\f1.h
 	".\..\objs.h"
 	".\..\lvls.h"
 	".\..\img.h"
@@ -122,7 +122,7 @@
 	".\..\..\scripts.h"
 	<string>
 
-1521462536 source:c:\users\user\desktop\game4\client\objs\key_logger\key_logger.cpp
+1521474785 source:c:\users\user\desktop\game4\client\objs\key_logger\key_logger.cpp
 	"key_logger.h"
 	".\..\..\vars.h"
 	".\..\..\scripts.h"
@@ -141,7 +141,7 @@
 	"vars.h"
 	"scripts.h"
 
-1521219946 source:c:\users\user\desktop\game4\client\scripts\f1.cpp
+1521558828 source:c:\users\user\desktop\game4\client\scripts\f1.cpp
 	"f1.h"
 	".\..\vars.h"
 	".\..\scripts.h"

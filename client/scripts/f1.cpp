@@ -22,6 +22,28 @@ void print(int x, int y, pixel& _img)
     std::cout << _img.sign;
 }
 
+void print(int x, int y, std::string s)
+{
+    COORD c1;
+    c1.X = x;
+    c1.Y = y;
+
+    SetConsoleCursorPosition(hConsole, c1);
+    SetConsoleTextAttribute(hConsole, 15);
+    std::cout << s;
+}
+
+void print(int x, int y, int s)
+{
+    COORD c1;
+    c1.X = x;
+    c1.Y = y;
+
+    SetConsoleCursorPosition(hConsole, c1);
+    SetConsoleTextAttribute(hConsole, 15);
+    std::cout << s;
+}
+
 void clear_position(obj* _this)
 {
     int x0 = _this->x_room - _this->x_img;

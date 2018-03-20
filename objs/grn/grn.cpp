@@ -24,10 +24,10 @@ grn::grn(int _x, int _y, lvl* _my_lvl, int _direction, hero* _my_hero)
     erase_called = false;
     spawned = false;
 
-    solid = true;
+    solid = false;
     invis = false;
 
-    dmg = 5;
+    dmg = 10;
 
     living_time = 1.0;
     cd_moving = 0.3;

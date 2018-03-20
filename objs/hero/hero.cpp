@@ -37,7 +37,6 @@ hero::hero(int _x, int _y)
 hero::hero(int _x, int _y, lvl* _my_lvl)
 {
     depth = 3;
-    hp = 11;
     name = "hero";
     std::string s = ".\\imgs\\hero.txt";
     skin = new img(s);
@@ -66,9 +65,13 @@ hero::hero(int _x, int _y, lvl* _my_lvl)
     cd_spd_b = false;
 
     cd_grn_immune_b = false;
-    cd_grn_immune = 0.15;
+    cd_grn_immune = 0.5;
 
     spd_on = false;
+
+    kills = 0;
+    deaths = 0;
+    hp = 11;
 
     for (int i = 0; i < skin->x; i++)
         for (int j = 0; j < skin->y; j++)
@@ -122,28 +125,28 @@ void hero::skill_cast(int direction)
     if (curr_skill == AWP && (!cd_awp_b || (time_passed(cd_awp_t, t_now) > AWP_CD)) && (skills[AWP] > 0))
     {
         cd_awp_b = true;
-        my_lvl->add_list.push_back(new bullet(x_dir, y_dir, my_lvl, direction, curr_skill));
+        my_lvl->add_list.push_back(new bullet(x_dir, y_dir, my_lvl, direction, curr_skill, this));
         cd_awp_t = clock();
         skills[AWP]--;
     }
     if (curr_skill == PST && (!cd_pst_b || (time_passed(cd_pst_t, t_now) > PST_CD)) && (skills[PST] > 0))
     {
         cd_pst_b = true;
-        my_lvl->add_list.push_back(new bullet(x_dir, y_dir, my_lvl, direction, curr_skill));
+        my_lvl->add_list.push_back(new bullet(x_dir, y_dir, my_lvl, direction, curr_skill, this));
         cd_pst_t = clock();
         skills[PST]--;
     }
     if (curr_skill == SGN && (!cd_sgn_b || (time_passed(cd_sgn_t, t_now) > SGN_CD)) && (skills[SGN] > 0))
     {
         cd_sgn_b = true;
-        my_lvl->add_list.push_back(new bullet(x_dir, y_dir, my_lvl, direction, curr_skill));
+        my_lvl->add_list.push_back(new bullet(x_dir, y_dir, my_lvl, direction, curr_skill, this));
         cd_sgn_t = clock();
         skills[SGN]--;
     }
     if (curr_skill == ARF && (!cd_arf_b || (time_passed(cd_arf_t, t_now) > ARF_CD)) && (skills[ARF] > 0))
     {
         cd_arf_b = true;
-        my_lvl->add_list.push_back(new bullet(x_dir, y_dir, my_lvl, direction, curr_skill));
+        my_lvl->add_list.push_back(new bullet(x_dir, y_dir, my_lvl, direction, curr_skill, this));
         cd_arf_t = clock();
         skills[ARF]--;
     }
@@ -170,6 +173,8 @@ void hero::step()
 
     if (hp <= 0)
     {
+        deaths++;
+
         clear_position(this);
         set_spawn(x_room, y_room, my_lvl);
         init();
@@ -190,6 +195,26 @@ void hero::step()
 
         return;
     }
+    set<obj*> bord;
+    scan_space(this, x_room, y_room, bord);
+    for (auto bord_obj : bord)
+        if (bord_obj->name == "grn")
+        {
+            if (!cd_grn_immune_b || (time_passed(cd_grn_immune_t, clock()) > cd_grn_immune))
+            {
+                if  (!static_cast<grn*>(bord_obj)->is_flying)
+                {
+                    cd_grn_immune_b = true;
+                    cd_grn_immune_t = clock();
+
+                    int _hp = hp;
+                    hp -= static_cast<grn*>(bord_obj)->dmg;
+                    if (_hp > 0 && hp <= 0)
+                        static_cast<grn*>(bord_obj)->my_hero->kills++;
+                }
+            }
+        }
+
     if (spd_on && (time_passed(cd_spd_t, clock()) > SPD_DURATION))
     {
         spd_on = false;
@@ -251,6 +276,7 @@ void hero::step()
         curr_skill = HPU;
     if (key_pressed(KEY_8))
         curr_skill = SPD;
+
 }
 
 void hero::hero_moving(int new_x_room, int new_y_room)
@@ -291,7 +317,10 @@ void hero::hero_moving(int new_x_room, int new_y_room)
             }
             if (bord_obj->name == "bullet")
             {
+                int _hp = hp;
                 hp -= static_cast<bullet*>(bord_obj)->dmg;
+                if (_hp >0 && hp <= 0)
+                    static_cast<bullet*>(bord_obj)->my_hero->kills++;
                 bord_obj->erase_called = true;
             }
 
@@ -304,7 +333,10 @@ void hero::hero_moving(int new_x_room, int new_y_room)
                         cd_grn_immune_b = true;
                         cd_grn_immune_t = clock();
 
+                        int _hp = hp;
                         hp -= static_cast<grn*>(bord_obj)->dmg;
+                        if (_hp > 0 && hp <= 0)
+                            static_cast<grn*>(bord_obj)->my_hero->kills++;
                     }
                 }
             }

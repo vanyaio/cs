@@ -68,7 +68,7 @@ bullet::bullet(int _x, int _y, lvl* _my_lvl, int _direction, int _dmg, double _c
             return;
         }
 }
-bullet::bullet(int _x, int _y, lvl* _my_lvl, int _direction, int skill)
+bullet::bullet(int _x, int _y, lvl* _my_lvl, int _direction, int skill, hero* _my_hero)
 {
     name = "bullet";
     depth = 100;
@@ -77,6 +77,7 @@ bullet::bullet(int _x, int _y, lvl* _my_lvl, int _direction, int skill)
     x_room = _x;
     y_room = _y;
     my_lvl = _my_lvl;
+    my_hero = _my_hero;
 
     direction = _direction;
 
@@ -198,10 +199,16 @@ void bullet::step()
         bool solid_found = false;
         for (auto bord_obj : bord)
         {
+            if (bord_obj->erase_called)
+                continue;
             if (bord_obj->solid  && !bord_obj->erase_called)
                 solid_found = true;
-            if (bord_obj->name == "hero")
+            if (bord_obj->name == "hero"){
+                int _hp = static_cast<hero*>(bord_obj)->hp;
                 static_cast<hero*>(bord_obj)->hp -= dmg;
+                if (_hp > 0 && static_cast<hero*>(bord_obj)->hp <= 0)
+                    my_hero->kills++;
+            }
         }
         if (!solid_found)
         {

@@ -56,7 +56,7 @@
 	".\objs\grn\grn.h"
 	".\objs\smk\smk.h"
 
-1521476517 c:\users\user\desktop\game4\objs\hero\hero.h
+1521516815 c:\users\user\desktop\game4\objs\hero\hero.h
 	".\..\..\obj.h"
 	".\..\..\objs.h"
 	".\..\..\lvls.h"
@@ -95,7 +95,7 @@
 
 1519788627 source:c:\users\user\desktop\game4\obj.cpp
 
-1521438099 source:c:\users\user\desktop\game4\scripts\f1.cpp
+1521557076 source:c:\users\user\desktop\game4\scripts\f1.cpp
 	"f1.h"
 	".\..\vars.h"
 	".\..\scripts.h"
@@ -104,7 +104,7 @@
 	"vars.h"
 	"scripts.h"
 
-1521479313 source:c:\users\user\desktop\game4\objs\hero\hero.cpp
+1521563412 source:c:\users\user\desktop\game4\objs\hero\hero.cpp
 	"hero.h"
 	".\..\..\vars.h"
 	".\..\..\scripts.h"
@@ -132,14 +132,14 @@
 1521436454 source:c:\users\user\desktop\game4\user.cpp
 	"user.h"
 
-1521312165 c:\users\user\desktop\game4\objs\bullet\bullet.h
+1521516966 c:\users\user\desktop\game4\objs\bullet\bullet.h
 	".\..\..\obj.h"
 	".\..\..\objs.h"
 	".\..\..\lvls.h"
 	".\..\..\img.h"
 	".\..\..\stl.h"
 
-1521474152 source:c:\users\user\desktop\game4\objs\bullet\bullet.cpp
+1521518128 source:c:\users\user\desktop\game4\objs\bullet\bullet.cpp
 	"bullet.h"
 	".\..\..\vars.h"
 	".\..\..\scripts.h"
@@ -158,7 +158,7 @@
 	".\..\..\scripts.h"
 	<string>
 
-1521474174 source:c:\users\user\desktop\game4\objs\grn\grn.cpp
+1521563429 source:c:\users\user\desktop\game4\objs\grn\grn.cpp
 	"grn.h"
 	".\..\..\vars.h"
 	".\..\..\scripts.h"

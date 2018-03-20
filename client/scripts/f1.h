@@ -8,6 +8,8 @@
 #include".\..\user.h"
 void print(int x, int y, img& _img);
 void print(int x, int y, pixel& _img);
+void print(int x, int y, std::string s);
+void print(int x, int y, int s);
 
 void clear_position(obj* _this);
 void moving(int new_x_room, int new_y_room, obj* _this);

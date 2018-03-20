@@ -47,6 +47,9 @@ public:
     int curr_skill;
     int* skills;
 
+    int kills;
+    int deaths;
+
     hero();
     ~hero();
     hero(int _x, int _y);

@@ -19,11 +19,12 @@ public:
     int direction;
     int dmg;
     //DON'T FORGET ABOUT MY HERO
+    hero* my_hero;
 
     bullet();
     bullet(int _x, int _y);
     bullet(int _x, int _y, lvl* _my_lvl, int _direction, int _dmg, double _cd_moving);
-    bullet(int _x, int _y, lvl* _my_lvl, int _direction, int skill);
+    bullet(int _x, int _y, lvl* _my_lvl, int _direction, int skill, hero* _my_hero);
     ~bullet();
     void step();
     void init();

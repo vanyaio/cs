@@ -80,10 +80,20 @@ int main()
             colors[i] = ntohl(colors[i]);
         }
 
-        if (recv1 == (sz*4) && recv2 == (sz*4))
-            _loca.step(signs, colors, true);
+        int skills[skills_sz];
+        int recv3 = recv(sock, (char*)skills, skills_sz * sizeof(int), 0);
+        for (int i = 0; i < skills_sz; i++)
+            skills[i] = ntohl(skills[i]);
+
+        int kdh[3];
+        int recv4 = recv(sock, (char*)kdh, 3 * sizeof(int), 0);
+        for (int i = 0; i < 3; i++)
+            kdh[i] = ntohl(kdh[i]);
+
+        if (recv1 == (sz*4) && recv2 == (sz*4) && recv3 == (skills_sz * sizeof(int)) && recv4 == (3 * sizeof(int)))
+            _loca.step(signs, colors, skills, kdh, true);
         else
-            _loca.step(signs, colors, false);
+            _loca.step(signs, colors, skills, kdh, false);
         //_loca.step(signs, colors, true);
         if (last != _loca.cnt)
             fout << _loca.cnt << endl;

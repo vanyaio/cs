@@ -125,7 +125,8 @@ void set_spawn(int& _x, int& _y, lvl* _this)
     set<int> free_spawns;
     int cnt = 0;
     for (int i = 0; i < _this->spawns_sz; i++)
-        if (_this->room[_this->spawns_x[i]][_this->spawns_y[i]].empty()){
+        if (_this->room[_this->spawns_x[i]][_this->spawns_y[i]].empty())
+        {
             free_spawns.insert(i);
             cnt++;
         }
@@ -196,17 +197,42 @@ void network_step(lvl* _this)
             }
         int send1 = send((_user->my_sock), (char*)signs, sizeof(int) * game_screen_x * game_screen_y, 0);
         int send2 = send((_user->my_sock), (char*)colors, sizeof(int) * game_screen_x * game_screen_y, 0);
-        //cout << send1 << " " << send2 << endl;
-        if((send1 == -1) || (send2 == -1))
+
+        int _skills[skills_sz];
+
+        _skills[AWP] = static_cast<hero*>(now_obj)->skills[AWP];
+        _skills[SGN] = static_cast<hero*>(now_obj)->skills[SGN];
+        _skills[ARF] = static_cast<hero*>(now_obj)->skills[ARF];
+        _skills[PST] = static_cast<hero*>(now_obj)->skills[PST];
+
+        _skills[SPD] = static_cast<hero*>(now_obj)->skills[SPD];
+        _skills[HPU] = static_cast<hero*>(now_obj)->skills[HPU];
+        _skills[GRN] = static_cast<hero*>(now_obj)->skills[GRN];
+        _skills[SMK] = static_cast<hero*>(now_obj)->skills[SMK];
+
+        _skills[0] = static_cast<hero*>(now_obj)->curr_skill;
+        for (int i = 0; i < skills_sz; i++)
+            _skills[i] = htonl(_skills[i]);
+        int send3 = send((_user->my_sock), (char*)_skills, sizeof(int) * (skills_sz), 0);
+
+        int kdh[3];
+        kdh[0] = static_cast<hero*>(now_obj)->kills;
+        kdh[1] = static_cast<hero*>(now_obj)->deaths;
+        kdh[2] = static_cast<hero*>(now_obj)->hp;
+        for (int i = 0; i < 3; i++)
+            kdh[i] = htonl(kdh[i]);
+        int send4 = send((_user->my_sock), (char*)kdh, sizeof(int) * 3, 0);
+
+        if((send1 == -1) || (send2 == -1) || (send3 == -1) || (send4 == -1))
         {
             if (_this->breaking_time[_user] == 0)
                 _this->breaking_time[_user] = clock();
-            else
-                if (time_passed(_this->breaking_time[_user], clock()) > _this->response_time){
-                    _user->my_hero->erase_called = true;
-                    delete _user;
-                    to_erase.insert(_user);
-                }
+            else if (time_passed(_this->breaking_time[_user], clock()) > _this->response_time)
+            {
+                _user->my_hero->erase_called = true;
+                delete _user;
+                to_erase.insert(_user);
+            }
         }
         else
             _this->breaking_time[_user] = 0;

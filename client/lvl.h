@@ -32,7 +32,7 @@ public:
     int* key_buff;
 
     int cnt;
-    virtual void update_terminal_lvl(int* signs, int* colors, bool recv_flag) = 0;
-    virtual void step(int* signs, int* colors, bool recv_flag) = 0;
+    virtual void update_terminal_lvl(int* signs, int* colors, int* skills, int* kdh, bool recv_flag) = 0;
+    virtual void step(int* signs, int* colors, int* skills, int* kdh, bool recv_flag) = 0;
 };
 #endif // obj_h
