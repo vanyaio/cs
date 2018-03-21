@@ -34,9 +34,9 @@ loca::loca()
     cnt = 0;
 
     skills_buff = new int[skills_sz];
-    fill(skills_buff, skills_buff + skills_sz, 0);
+    fill(skills_buff, skills_buff + skills_sz, -1);
     kdh_buff = new int[3];
-    fill(kdh_buff, kdh_buff + 3, 0);
+    fill(kdh_buff, kdh_buff + 3, -1);
 }
 
 loca::loca(int _x, int _y)
@@ -135,22 +135,25 @@ void loca::update_terminal_lvl(int* signs, int* colors, int* skills, int* kdh, b
                 continue;
             print(i, j, terminal[i][j]);
             //
+            /*
             if (!check)
             {
                 cnt++;
                 check = true;
             }
+            */
         }
+    if (recv_flag){
     for (int i = 0; i < x; i++)
         for (int j = 0; j < y; j++)
             buffer[i][j] = terminal[i][j];
-
+    }
     if (recv_flag)
     {
         for (int i = 0; i < skills_sz; i++)
             if (skills_buff[i] != skills[i])
             {
-                string s = "         ";
+                string s = "             ";
                 print(game_screen_x + 8, i, s);
                 print(game_screen_x + 8, i, skills[i]);
                 skills_buff[i] = skills[i];
@@ -158,7 +161,7 @@ void loca::update_terminal_lvl(int* signs, int* colors, int* skills, int* kdh, b
         for (int i = 0; i < 3; i++)
             if (kdh_buff[i] != kdh[i])
             {
-                string s = "         ";
+                string s = "              ";
                 print(7, game_screen_y + i, s);
                 print(7, game_screen_y + i, kdh[i]);
                 kdh_buff[i] = kdh[i];

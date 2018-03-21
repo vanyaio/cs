@@ -151,6 +151,52 @@ void set_spawn(int& _x, int& _y, lvl* _this)
     }
 }
 
+void my_send(SOCKET sock, int* arr, int sz)
+{
+    int send1 = 0;
+    int cnt = 0;
+    while (send1 != sz * sizeof(int))
+    {
+        int _int[1];
+        _int[0] = arr[cnt];
+        int _send = 0;
+        int _cnt = 0;
+        while (_send != (sizeof(int)))
+        {
+            int _send1 = send(sock, (((char*)_int) + _cnt), 1, 0);
+            if (_send1 == 1){
+                _cnt++;
+                _send += _send1;
+            }
+        }
+        cnt++;
+        send1 += _send;
+    }
+}
+void my_recv(SOCKET sock, int* arr, int sz)
+{
+    int recv1 = 0;
+    int cnt = 0;
+    while (recv1 != sz * sizeof(int))
+    {
+        int _int[1];
+        int _recv = 0;
+        int _cnt = 0;
+        while (_recv != sizeof(int))
+        {
+            int _recv1 = recv(sock, (char*)_int + _cnt, 1, 0);
+            if (_recv1 == 1)
+            {
+                _cnt++;
+                _recv += _recv1;
+            }
+        }
+        arr[cnt] = _int[0];
+        cnt++;
+        recv1 += _recv;
+
+    }
+}
 void network_step(lvl* _this)
 {
     SOCKET slave = accept((_this->master), 0, 0);
@@ -170,76 +216,105 @@ void network_step(lvl* _this)
         _this->breaking_time[new_user] = 0;
     }
     set<user*> to_erase;
+    bool send_happened = false;
     for (auto _user : _this->connections)
     {
+        /*
         int gotten = recv((_user->my_sock), (char*)(_user->key_buff), key_buff_sz * sizeof(int), 0);
         if (gotten != -1)
         {
             for (int i = 0 ; i < key_buff_sz; ++i)
                 _user->key_buff[i] = ntohl(_user->key_buff[i]);
         }
+        */
+        my_recv(_user->my_sock, _user->key_buff, key_buff_sz);
+        for (int i = 0 ; i < key_buff_sz; ++i)
+            _user->key_buff[i] = ntohl(_user->key_buff[i]);
 
-        int signs[game_screen_x * game_screen_y];
-        int colors[game_screen_x * game_screen_y];
-        obj* now_obj = _user->my_hero;
+       // if (time_passed(_this->send_time_t, clock()) > _this->send_time)
+        //{
+            send_happened = true;
 
-        for (int i = now_obj->x_room - (game_screen_x/2), cnt = 0; i <= (now_obj->x_room + (game_screen_x/2)); i++)
-            for (int j = now_obj->y_room - (game_screen_y/2); j <= (now_obj->y_room + (game_screen_y/2)); j++, cnt++)
-            {
-                if (out_of_border(i, j, _this))
+            int signs[game_screen_x * game_screen_y];
+            int colors[game_screen_x * game_screen_y];
+            obj* now_obj = _user->my_hero;
+
+            for (int i = now_obj->x_room - (game_screen_x/2), cnt = 0; i <= (now_obj->x_room + (game_screen_x/2)); i++)
+                for (int j = now_obj->y_room - (game_screen_y/2); j <= (now_obj->y_room + (game_screen_y/2)); j++, cnt++)
                 {
-                    signs[cnt] = htonl((int)' ');
-                    colors[cnt] = htonl(15);
-                    continue;
+                    if (out_of_border(i, j, _this))
+                    {
+                        signs[cnt] = htonl((int)' ');
+                        colors[cnt] = htonl(15);
+                        continue;
+                    }
+                    signs[cnt] = htonl((int)_this->terminal[i][j].sign);
+                    colors[cnt] = htonl((int)_this->terminal[i][j].color);
                 }
-                signs[cnt] = htonl((int)_this->terminal[i][j].sign);
-                colors[cnt] = htonl((int)_this->terminal[i][j].color);
-            }
-        int send1 = send((_user->my_sock), (char*)signs, sizeof(int) * game_screen_x * game_screen_y, 0);
-        int send2 = send((_user->my_sock), (char*)colors, sizeof(int) * game_screen_x * game_screen_y, 0);
+            //int send1 = send((_user->my_sock), (char*)signs, sizeof(int) * game_screen_x * game_screen_y, 0);
+            //int send2 = send((_user->my_sock), (char*)colors, sizeof(int) * game_screen_x * game_screen_y, 0);
+            my_send(_user->my_sock, signs, game_screen_x * game_screen_y);
+            my_send(_user->my_sock, colors, game_screen_x * game_screen_y);
 
-        int _skills[skills_sz];
+            int _skills[skills_sz];
 
-        _skills[AWP] = static_cast<hero*>(now_obj)->skills[AWP];
-        _skills[SGN] = static_cast<hero*>(now_obj)->skills[SGN];
-        _skills[ARF] = static_cast<hero*>(now_obj)->skills[ARF];
-        _skills[PST] = static_cast<hero*>(now_obj)->skills[PST];
+            _skills[AWP] = static_cast<hero*>(now_obj)->skills[AWP];
+            _skills[SGN] = static_cast<hero*>(now_obj)->skills[SGN];
+            _skills[ARF] = static_cast<hero*>(now_obj)->skills[ARF];
+            _skills[PST] = static_cast<hero*>(now_obj)->skills[PST];
 
-        _skills[SPD] = static_cast<hero*>(now_obj)->skills[SPD];
-        _skills[HPU] = static_cast<hero*>(now_obj)->skills[HPU];
-        _skills[GRN] = static_cast<hero*>(now_obj)->skills[GRN];
-        _skills[SMK] = static_cast<hero*>(now_obj)->skills[SMK];
+            _skills[SPD] = static_cast<hero*>(now_obj)->skills[SPD];
+            _skills[HPU] = static_cast<hero*>(now_obj)->skills[HPU];
+            _skills[GRN] = static_cast<hero*>(now_obj)->skills[GRN];
+            _skills[SMK] = static_cast<hero*>(now_obj)->skills[SMK];
 
-        _skills[0] = static_cast<hero*>(now_obj)->curr_skill;
-        for (int i = 0; i < skills_sz; i++)
-            _skills[i] = htonl(_skills[i]);
-        int send3 = send((_user->my_sock), (char*)_skills, sizeof(int) * (skills_sz), 0);
+            _skills[0] = static_cast<hero*>(now_obj)->curr_skill;
+            //
+            bool flag = false;
+            for (int i = 0; i < skills_sz; i++)
+                if ((_skills[i] == 32 || _skills[i] == 15) && !flag)
+                {
+                    flag = true;
+                    static_cast<loca*>(_this)->cnt++;
+                }
+            //
+            for (int i = 0; i < skills_sz; i++)
+                _skills[i] = htonl(_skills[i]);
+            //int send3 = send((_user->my_sock), (char*)_skills, sizeof(int) * (skills_sz), 0);
+            my_send(_user->my_sock, _skills, skills_sz);
 
-        int kdh[3];
-        kdh[0] = static_cast<hero*>(now_obj)->kills;
-        kdh[1] = static_cast<hero*>(now_obj)->deaths;
-        kdh[2] = static_cast<hero*>(now_obj)->hp;
-        for (int i = 0; i < 3; i++)
-            kdh[i] = htonl(kdh[i]);
-        int send4 = send((_user->my_sock), (char*)kdh, sizeof(int) * 3, 0);
+            int kdh[3];
+            kdh[0] = static_cast<hero*>(now_obj)->kills;
+            kdh[1] = static_cast<hero*>(now_obj)->deaths;
+            kdh[2] = static_cast<hero*>(now_obj)->hp;
+            for (int i = 0; i < 3; i++)
+                kdh[i] = htonl(kdh[i]);
+            //int send4 = send((_user->my_sock), (char*)kdh, sizeof(int) * 3, 0);
+            my_send(_user->my_sock, kdh, 3);
 
-        if((send1 == -1) || (send2 == -1) || (send3 == -1) || (send4 == -1))
-        {
-            if (_this->breaking_time[_user] == 0)
-                _this->breaking_time[_user] = clock();
-            else if (time_passed(_this->breaking_time[_user], clock()) > _this->response_time)
+            /*
+            if((send1 == -1) || (send2 == -1) || (send3 == -1) || (send4 == -1))
             {
-                _user->my_hero->erase_called = true;
-                delete _user;
-                to_erase.insert(_user);
+                if (_this->breaking_time[_user] == 0)
+                    _this->breaking_time[_user] = clock();
+                else if (time_passed(_this->breaking_time[_user], clock()) > _this->response_time)
+                {
+                    _user->my_hero->erase_called = true;
+                    delete _user;
+                    to_erase.insert(_user);
+                }
             }
-        }
-        else
-            _this->breaking_time[_user] = 0;
+            else
+                _this->breaking_time[_user] = 0;
+            */
+        //}
     }
 
     for (auto it : to_erase)
         _this->connections.erase(it);
+
+    if (send_happened)
+        _this->send_time_t = clock();
 }
 
 bool out_of_border(int x, int y, lvl* _this)

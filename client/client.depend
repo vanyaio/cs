@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1521559424 source:c:\users\user\desktop\game4\client\main.cpp
+1521610541 source:c:\users\user\desktop\game4\client\main.cpp
 	<iostream>
 	<fstream>
 	<stdio.h>
@@ -27,7 +27,7 @@
 
 1519788627 source:c:\users\user\desktop\game4\client\lvl.cpp
 
-1521559765 source:c:\users\user\desktop\game4\client\lvls\loca\loca.cpp
+1521605815 source:c:\users\user\desktop\game4\client\lvls\loca\loca.cpp
 	"loca.h"
 	".\..\..\vars.h"
 	".\..\..\scripts.h"
@@ -57,7 +57,7 @@
 	"img.h"
 	"stl.h"
 
-1521559202 c:\users\user\desktop\game4\client\stl.h
+1521635928 c:\users\user\desktop\game4\client\stl.h
 	<winsock2.h>
 	<windows.h>
 	<iostream>

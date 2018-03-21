@@ -208,6 +208,7 @@ void bullet::step()
                 static_cast<hero*>(bord_obj)->hp -= dmg;
                 if (_hp > 0 && static_cast<hero*>(bord_obj)->hp <= 0)
                     my_hero->kills++;
+                erase_called = true;
             }
         }
         if (!solid_found)

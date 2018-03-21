@@ -10,7 +10,7 @@
 
 1519788627 source:c:\users\user\desktop\game4\lvl.cpp
 
-1521477529 source:c:\users\user\desktop\game4\lvls\loca\loca.cpp
+1521637019 source:c:\users\user\desktop\game4\lvls\loca\loca.cpp
 	"loca.h"
 	".\..\..\vars.h"
 	".\..\..\scripts.h"
@@ -23,7 +23,7 @@
 	".\..\..\img.h"
 	".\..\..\stl.h"
 
-1521438065 c:\users\user\desktop\game4\lvl.h
+1521571290 c:\users\user\desktop\game4\lvl.h
 	"obj.h"
 	"user.h"
 	"img.h"
@@ -35,7 +35,7 @@
 	"img.h"
 	"stl.h"
 
-1521477638 c:\users\user\desktop\game4\stl.h
+1521635859 c:\users\user\desktop\game4\stl.h
 	<winsock2.h>
 	<windows.h>
 	<iostream>
@@ -47,6 +47,7 @@
 	<set>
 	<cstdlib>
 	<map>
+	<fstream>
 
 1521474232 c:\users\user\desktop\game4\objs.h
 	".\objs\hero\hero.h"
@@ -76,14 +77,14 @@
 1519788627 c:\users\user\desktop\game4\scripts.h
 	".\scripts\f1.h"
 
-1521398974 c:\users\user\desktop\game4\scripts\f1.h
+1521609881 c:\users\user\desktop\game4\scripts\f1.h
 	".\..\objs.h"
 	".\..\lvls.h"
 	".\..\img.h"
 	".\..\stl.h"
 	".\..\user.h"
 
-1521429971 source:c:\users\user\desktop\game4\main.cpp
+1521636879 source:c:\users\user\desktop\game4\main.cpp
 	"objs.h"
 	"lvls.h"
 	"img.h"
@@ -95,7 +96,7 @@
 
 1519788627 source:c:\users\user\desktop\game4\obj.cpp
 
-1521557076 source:c:\users\user\desktop\game4\scripts\f1.cpp
+1521610749 source:c:\users\user\desktop\game4\scripts\f1.cpp
 	"f1.h"
 	".\..\vars.h"
 	".\..\scripts.h"
@@ -171,7 +172,7 @@
 	".\..\..\img.h"
 	".\..\..\stl.h"
 
-1521474593 source:c:\users\user\desktop\game4\objs\smk\smk.cpp
+1521637143 source:c:\users\user\desktop\game4\objs\smk\smk.cpp
 	"smk.h"
 	".\..\..\vars.h"
 	".\..\..\scripts.h"

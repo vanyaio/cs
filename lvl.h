@@ -30,6 +30,8 @@ public:
     set<user*> connections;
     map<user*, clock_t> breaking_time;
     double response_time;
+    double send_time;
+    clock_t send_time_t;
 
     int* spawns_x;
     int* spawns_y;

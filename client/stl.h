@@ -13,11 +13,11 @@
 
 #define key_buff_sz 5
 #define skills_sz 9
-#define game_screen_x 21
-#define game_screen_y 11
+#define game_screen_x 71
+#define game_screen_y 25
 
-#define full_screen_x 40
-#define full_screen_y 30
+#define full_screen_x 100
+#define full_screen_y 100
 
 #define UP 1
 #define RIGHT 2

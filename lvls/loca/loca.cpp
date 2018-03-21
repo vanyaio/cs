@@ -53,6 +53,8 @@ loca::loca(int _x, int _y)
     listen(master, 0x100);
 
     response_time = 4.0;
+    send_time = 0.02;
+    send_time_t = clock();
     //
     cnt = 0;
 }
@@ -64,9 +66,11 @@ void loca::update_terminal_lvl()
     {
         for (auto my_obj : my_objs)
             update_terminal(my_obj);
+        /*
         for (int i = 0; i < x; i++)
             for (int j = 0; j < y; j++)
                 print(i, j, terminal[i][j]);
+        */
         first_enter = false;
         return;
     }
@@ -79,8 +83,9 @@ void loca::update_terminal_lvl()
         if (my_obj->spawned)
             update_terminal(my_obj);
     //
-    bool flag = false;
+    //bool flag = false;
     //
+    /*
     for (int i = 0; i < x; i++)
         for (int j = 0; j < y; j++)
         {
@@ -88,12 +93,14 @@ void loca::update_terminal_lvl()
                 continue;
             print(i, j, terminal[i][j]);
             //
+            /*
             if (!flag)
             {
                 cnt++;
                 flag = true;
             }
-        }
+            */
+        //}
     for (int i = 0; i < x; i++)
         for (int j = 0; j < y; j++)
             buffer[i][j] = terminal[i][j];
@@ -114,7 +121,7 @@ void smart_delete(obj* _obj)
 void loca::step()
 {
     //
-    string path = "kek";
+    string path = ".\\maps\\square.txt";
     //
     if (first_enter)
         load_map(path);
@@ -142,6 +149,8 @@ void loca::step()
             delete static_cast<bonus*>(my_obj);
         if (name == "grn")
             delete static_cast<grn*>(my_obj);
+        if (name == "smk")
+            delete static_cast<smk*>(my_obj);
         my_objs.erase(my_obj);
     }
     if (!cd_spawn_b || (time_passed(cd_spawn_t, clock()) > cd_spawn)){
@@ -159,27 +168,45 @@ void loca::step()
 
 void loca::load_map(string path)
 {
-    spawns_sz = 3;
+    spawns_sz = 100;
     spawns_x = new int[spawns_sz];
     spawns_y = new int[spawns_sz];
-    spawns_x[0] = 3;
-    spawns_x[1] = 25;
-    spawns_y[0] = 10;
-    spawns_y[1] = 10;
-    spawns_x[2] = 15;
-    spawns_y[2] = 15;
-    //
-    add_list.push_back(new wall(40, 20, this));
-    //add_list.push_back(new grn(40, 17, this, DOWN, nullptr));
+
+    ifstream fin;
+    fin.open(path.c_str());
+    int i = 0, j = 0;
+    int spawn_cnt = 0;
+    while (!fin.eof())
+    {
+        char c = fin.get();
+        if (c == '\n'){
+            i = 0;
+            j++;
+        }
+        if (c == 'w')
+            add_list.push_back(new wall(i, j, this));
+        if (c == 's')
+        {
+            spawns_x[spawn_cnt] = i;
+            spawns_y[spawn_cnt] = j;
+            spawn_cnt++;
+        }
+        i++;
+    }
+    spawns_sz = spawn_cnt;
 }
 void loca::spawn_bonus()
 {
-    int _x, _y;
-    set_spawn(_x, _y, this);
-    obj* p1 = new bonus(_x, _y, this, SPD);
-    p1->init();
-    //does not work, need init
-    set_spawn(_x, _y, this);
-    p1 = new bonus(_x, _y, this, SMK);
-    p1->init();
+
+    for (int i = 0; i < spawns_sz / 2; i++)
+    {
+        int _bonus = rand_num(skills_sz - 1) + 1;
+        //while ((_bonus = rand_num(skills_sz)) && (_bonus != PST)) {int a;}
+        if (_bonus == PST) continue;
+        int _x, _y;
+        set_spawn(_x, _y, this);
+        obj* p1 = new bonus(_x, _y, this, _bonus);
+        p1->init();
+    }
+
 }

@@ -21,7 +21,7 @@ int main()
     fout.open("logs.txt");
     int last = 0;
     //
-    loca _loca(70, 50);
+    loca _loca(300, 300);
     while (true)
     {
         _loca.step();

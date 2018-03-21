@@ -10,12 +10,13 @@
 #include<set>
 #include<cstdlib>
 #include<map>
+#include<fstream>
 
 #define SERVERADDR "127.0.0.1"
 #define key_buff_sz 5
 
-#define game_screen_x 21
-#define game_screen_y 11
+#define game_screen_x 71
+#define game_screen_y 25
 
 #define UP 1
 #define RIGHT 2
