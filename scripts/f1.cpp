@@ -151,8 +151,10 @@ void set_spawn(int& _x, int& _y, lvl* _this)
     }
 }
 
-void my_send(SOCKET sock, int* arr, int sz)
+void my_send(SOCKET sock, int* arr, int sz, lvl* _this)
 {
+    clock_t came_t = clock();
+
     int send1 = 0;
     int cnt = 0;
     while (send1 != sz * sizeof(int))
@@ -164,17 +166,23 @@ void my_send(SOCKET sock, int* arr, int sz)
         while (_send != (sizeof(int)))
         {
             int _send1 = send(sock, (((char*)_int) + _cnt), 1, 0);
-            if (_send1 == 1){
+            if (_send1 == 1)
+            {
                 _cnt++;
                 _send += _send1;
             }
+
+            if (time_passed(came_t, clock()) > _this->response_time)
+                throw true;
         }
         cnt++;
         send1 += _send;
     }
 }
-void my_recv(SOCKET sock, int* arr, int sz)
+void my_recv(SOCKET sock, int* arr, int sz, lvl* _this)
 {
+    clock_t came_t = clock();
+
     int recv1 = 0;
     int cnt = 0;
     while (recv1 != sz * sizeof(int))
@@ -190,6 +198,9 @@ void my_recv(SOCKET sock, int* arr, int sz)
                 _cnt++;
                 _recv += _recv1;
             }
+
+            if (time_passed(came_t, clock()) > _this->response_time)
+                throw true;
         }
         arr[cnt] = _int[0];
         cnt++;
@@ -219,20 +230,13 @@ void network_step(lvl* _this)
     bool send_happened = false;
     for (auto _user : _this->connections)
     {
-        /*
-        int gotten = recv((_user->my_sock), (char*)(_user->key_buff), key_buff_sz * sizeof(int), 0);
-        if (gotten != -1)
+        try
         {
+            my_recv(_user->my_sock, _user->key_buff, key_buff_sz, _this);
             for (int i = 0 ; i < key_buff_sz; ++i)
                 _user->key_buff[i] = ntohl(_user->key_buff[i]);
-        }
-        */
-        my_recv(_user->my_sock, _user->key_buff, key_buff_sz);
-        for (int i = 0 ; i < key_buff_sz; ++i)
-            _user->key_buff[i] = ntohl(_user->key_buff[i]);
 
-       // if (time_passed(_this->send_time_t, clock()) > _this->send_time)
-        //{
+
             send_happened = true;
 
             int signs[game_screen_x * game_screen_y];
@@ -251,10 +255,9 @@ void network_step(lvl* _this)
                     signs[cnt] = htonl((int)_this->terminal[i][j].sign);
                     colors[cnt] = htonl((int)_this->terminal[i][j].color);
                 }
-            //int send1 = send((_user->my_sock), (char*)signs, sizeof(int) * game_screen_x * game_screen_y, 0);
-            //int send2 = send((_user->my_sock), (char*)colors, sizeof(int) * game_screen_x * game_screen_y, 0);
-            my_send(_user->my_sock, signs, game_screen_x * game_screen_y);
-            my_send(_user->my_sock, colors, game_screen_x * game_screen_y);
+
+            my_send(_user->my_sock, signs, game_screen_x * game_screen_y, _this);
+            my_send(_user->my_sock, colors, game_screen_x * game_screen_y, _this);
 
             int _skills[skills_sz];
 
@@ -269,7 +272,7 @@ void network_step(lvl* _this)
             _skills[SMK] = static_cast<hero*>(now_obj)->skills[SMK];
 
             _skills[0] = static_cast<hero*>(now_obj)->curr_skill;
-            //
+
             bool flag = false;
             for (int i = 0; i < skills_sz; i++)
                 if ((_skills[i] == 32 || _skills[i] == 15) && !flag)
@@ -277,11 +280,11 @@ void network_step(lvl* _this)
                     flag = true;
                     static_cast<loca*>(_this)->cnt++;
                 }
-            //
+
             for (int i = 0; i < skills_sz; i++)
                 _skills[i] = htonl(_skills[i]);
-            //int send3 = send((_user->my_sock), (char*)_skills, sizeof(int) * (skills_sz), 0);
-            my_send(_user->my_sock, _skills, skills_sz);
+
+            my_send(_user->my_sock, _skills, skills_sz, _this);
 
             int kdh[3];
             kdh[0] = static_cast<hero*>(now_obj)->kills;
@@ -289,26 +292,19 @@ void network_step(lvl* _this)
             kdh[2] = static_cast<hero*>(now_obj)->hp;
             for (int i = 0; i < 3; i++)
                 kdh[i] = htonl(kdh[i]);
-            //int send4 = send((_user->my_sock), (char*)kdh, sizeof(int) * 3, 0);
-            my_send(_user->my_sock, kdh, 3);
 
-            /*
-            if((send1 == -1) || (send2 == -1) || (send3 == -1) || (send4 == -1))
-            {
-                if (_this->breaking_time[_user] == 0)
-                    _this->breaking_time[_user] = clock();
-                else if (time_passed(_this->breaking_time[_user], clock()) > _this->response_time)
-                {
-                    _user->my_hero->erase_called = true;
-                    delete _user;
-                    to_erase.insert(_user);
-                }
+            my_send(_user->my_sock, kdh, 3, _this);
+        }
+        catch (bool no_response)
+        {
+            if (no_response){
+            _user->my_hero->erase_called = true;
+            delete _user;
+            to_erase.insert(_user);
             }
-            else
-                _this->breaking_time[_user] = 0;
-            */
-        //}
+        }
     }
+
 
     for (auto it : to_erase)
         _this->connections.erase(it);

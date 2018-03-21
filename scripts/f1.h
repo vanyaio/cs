@@ -25,6 +25,6 @@ double time_passed(clock_t start, clock_t finish);
 
 int rand_num(int mx);
 
-void my_send(SOCKET sock, char* arr, int sz);
-void my_recv(SOCKET sock, int* arr, int sz);
+void my_send(SOCKET sock, char* arr, int sz, lvl* _this);
+void my_recv(SOCKET sock, int* arr, int sz, lvl* _this);
 #endif
