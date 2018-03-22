@@ -52,7 +52,7 @@ loca::loca(int _x, int _y)
     bind(master, (struct sockaddr*)(&sock_addr), sizeof(sock_addr));
     listen(master, 0x100);
 
-    response_time = 4.0;
+    response_time = 0.3;
     send_time = 0.02;
     send_time_t = clock();
     //

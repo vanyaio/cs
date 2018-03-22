@@ -72,6 +72,7 @@ void loca::update_terminal_lvl(int* signs, int* colors, int* skills, int* kdh, b
     std::cout.flush();
     if (first_enter)
     {
+        /*
         if (recv_flag)
         {
             for (int i = 0, cnt = 0; i < game_screen_x; i++)
@@ -110,7 +111,7 @@ void loca::update_terminal_lvl(int* signs, int* colors, int* skills, int* kdh, b
         print(0, game_screen_y + 1, s);
         s = "HP";
         print(0, game_screen_y + 2, s);
-
+        */
         first_enter = false;
         return;
     }

@@ -224,12 +224,14 @@ void network_step(lvl* _this)
 
         (static_cast<hero*>(new_hero))->my_user = new_user;
 
-        _this->breaking_time[new_user] = 0;
+        _this->breaking_time[new_user] = clock();
     }
     set<user*> to_erase;
     bool send_happened = false;
     for (auto _user : _this->connections)
     {
+        if (time_passed(_this->breaking_time[_user], clock()) < 4.0)
+            continue;
         try
         {
             my_recv(_user->my_sock, _user->key_buff, key_buff_sz, _this);

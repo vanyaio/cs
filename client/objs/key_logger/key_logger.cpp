@@ -42,7 +42,7 @@ void key_logger::step()
     if (GetAsyncKeyState(VK_LEFT) & 0x8000)
     {
         my_lvl->key_buff[cnt] = VK_LEFT;
-
+        cnt++;
     }
     if (GetAsyncKeyState(VK_UP) & 0x8000)
     {

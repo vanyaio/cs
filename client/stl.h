@@ -11,7 +11,7 @@
 
 #define SERVERADDR "127.0.0.1"
 
-#define key_buff_sz 5
+#define key_buff_sz 10
 #define skills_sz 9
 #define game_screen_x 71
 #define game_screen_y 25

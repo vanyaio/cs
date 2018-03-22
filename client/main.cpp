@@ -71,7 +71,8 @@ void my_send(SOCKET sock, int* arr, int sz)
         {
             //cout << "q" << endl;
             int _send1 = send(sock, (((char*)_int) + _cnt), 1, 0);
-            if (_send1 == 1){
+            if (_send1 == 1)
+            {
                 _cnt++;
                 _send += _send1;
             }
@@ -112,6 +113,41 @@ int main()
     fout.open("logs.txt");
     int last = -1;
     //
+    pixel** _terminal = new pixel*[full_screen_x];
+    for (int i = 0; i < full_screen_x; i++)
+        _terminal[i] = new pixel[full_screen_y];
+    for (int i = 0; i < full_screen_x; i++)
+        for (int j = 0; j < full_screen_y; j++)
+            _terminal[i][j] = pixel(' ', 15);
+    for (int i = 0; i < full_screen_x; i++)
+        for (int j = 0; j < full_screen_y; j++)
+            print(i, j, _terminal[i][j]);
+    string s;
+    s = "HAS";
+    print(game_screen_x, 0, s);
+    s = "1.AWP";
+    print(game_screen_x, 1, s);
+    s = "2.SGN";
+    print(game_screen_x, 2, s);
+    s = "3.ARF";
+    print(game_screen_x, 3, s);
+    s = "4.PST";
+    print(game_screen_x, 4, s);
+    s = "5.GRN";
+    print(game_screen_x, 5, s);
+    s = "6.SMK";
+    print(game_screen_x, 6, s);
+    s = "7.HPU";
+    print(game_screen_x, 7, s);
+    s = "8.SPD";
+    print(game_screen_x, 8, s);
+
+    s = "KILLS";
+    print(0, game_screen_y, s);
+    s = "DEATHS";
+    print(0, game_screen_y + 1, s);
+    s = "HP";
+    print(0, game_screen_y + 2, s);
     while (true)
     {
         for (int i = 0 ; i < key_buff_sz; ++i)
@@ -143,7 +179,7 @@ int main()
             kdh[i] = ntohl(kdh[i]);
 
         //if ((recv1 == (sz*4)) && (recv2 == (sz*4)) && (recv3 == (skills_sz * sizeof(int))) && (recv4 == (3 * sizeof(int))))
-            _loca.step(signs, colors, skills, kdh, true);
+        _loca.step(signs, colors, skills, kdh, true);
         /*
         else
         {
